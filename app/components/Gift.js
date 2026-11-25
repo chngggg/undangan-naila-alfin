@@ -2,7 +2,7 @@
 
 import { wedding, gifts } from "../data/wedding";
 import { Reveal, SectionTitle } from "./ui/Reveal";
-import { KawungBand, TampukManggis } from "./ui/Ornaments";
+import { KawungBand, TampukManggis, SectionDecor } from "./ui/Ornaments";
 import { useState } from "react";
 
 export default function Gift() {
@@ -20,6 +20,7 @@ export default function Gift() {
 
   return (
     <section className="relative overflow-hidden bg-cream px-5 py-20">
+      <SectionDecor floral="left" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-8 text-mahogany/[0.06] pattern-parang" />
 
       <div className="relative mx-auto max-w-[420px]">

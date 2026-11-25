@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { GoldDivider } from "./Ornaments";
 
 /* Wrapper animasi masuk yang lembut (fade + naik sedikit) */
 export function Reveal({
@@ -23,25 +24,28 @@ export function Reveal({
   );
 }
 
-/* Judul halaman: label kecil + judul serif + garis */
+/* Judul halaman — mengikuti referensi:
+   label kecil · judul script besar · subjudul italic · pembatas emas */
 export function SectionTitle({ kicker, title, script, className = "" }) {
   return (
     <div className={`text-center ${className}`}>
       {kicker && (
-        <p className="font-body text-[10px] uppercase tracking-luxe text-dusty">
+        <p className="font-body text-[9px] uppercase tracking-luxe text-dusty">
           {kicker}
         </p>
       )}
       {script && (
-        <p className="font-script text-3xl text-mahogany-soft/80 mt-3">{script}</p>
+        <p className="mt-2 font-script text-[40px] leading-none text-mahogany">
+          {script}
+        </p>
       )}
       {title && (
-        <h2 className="font-title text-[26px] leading-tight text-mahogany mt-1">
+        <h2 className="mt-3 font-couple text-[15px] italic leading-snug text-mahogany-soft/90">
           {title}
         </h2>
       )}
-      <div className="mt-5 flex justify-center text-champagne">
-        <span className="block h-px w-16 bg-gradient-to-r from-transparent via-champagne to-transparent" />
+      <div className="mt-4 flex justify-center text-champagne">
+        <GoldDivider width={152} />
       </div>
     </div>
   );

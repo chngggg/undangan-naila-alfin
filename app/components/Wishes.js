@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Reveal, SectionTitle } from "./ui/Reveal";
-import { Divider } from "./ui/Ornaments";
+import { Divider, SectionDecor } from "./ui/Ornaments";
 import {
   addGuestbookEntry,
   readGuestbook,
@@ -42,6 +42,7 @@ export default function Wishes() {
 
   return (
     <section className="relative overflow-hidden bg-ivory px-5 py-20">
+      <SectionDecor floral="right" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-champagne/60 to-transparent" />
 
       <div className="relative mx-auto max-w-[420px]">

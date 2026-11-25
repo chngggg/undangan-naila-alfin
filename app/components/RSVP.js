@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Reveal, SectionTitle } from "./ui/Reveal";
+import { SectionDecor } from "./ui/Ornaments";
 import { addGuestbookEntry } from "../lib/guestbook";
 
 const ATTEND = [
@@ -34,7 +35,7 @@ export default function RSVP() {
 
   return (
     <section className="relative overflow-hidden bg-cream px-5 py-20">
-      <div className="pointer-events-none absolute inset-0 pattern-kawung opacity-[0.05]" />
+      <SectionDecor floral="left" />
 
       <div className="relative mx-auto max-w-[420px]">
         <Reveal>

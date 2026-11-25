@@ -6,15 +6,13 @@ import { img } from "../lib/images";
 import { Reveal, SectionTitle } from "./ui/Reveal";
 import {
   GoldDivider,
-  FloralCluster,
   LaceCorner,
   TampukManggis,
-  KawungBand,
-  AngsoDuo,
+  SectionDecor,
 } from "./ui/Ornaments";
 
 /* potret dalam lengkung berenda */
-function ArchPortrait({ src, alt, motif: Motif }) {
+function ArchPortrait({ src, alt }) {
   return (
     <div className="relative mx-auto w-full max-w-[214px]">
       <div className="relative aspect-[182/292] overflow-hidden rounded-t-[999px] rounded-b-[10px] border border-champagne/70 bg-cream-deep/50">
@@ -32,8 +30,10 @@ function ArchPortrait({ src, alt, motif: Motif }) {
         className="pointer-events-none absolute -right-2 -top-2 h-10 w-10 text-champagne/70"
         rotate={90}
       />
-      <div className="mt-3 flex justify-center">
-        <Motif className="h-5 w-20 text-dusty/50" />
+      <div className="mt-3 flex items-center justify-center gap-2 text-champagne">
+        <span className="block h-px w-8 bg-champagne/70" />
+        <TampukManggis className="h-4 w-4 text-dusty/60" />
+        <span className="block h-px w-8 bg-champagne/70" />
       </div>
     </div>
   );
@@ -41,19 +41,18 @@ function ArchPortrait({ src, alt, motif: Motif }) {
 
 function PersonCard({ person, role, side }) {
   const isBride = side === "bride";
-  const Motif = isBride ? KawungBand : AngsoDuo;
   const file = isBride ? "bride.png" : "groom.png";
 
   return (
     <Reveal className="relative">
       <div className="relative mx-auto flex max-w-[300px] flex-col items-center px-2">
-        <ArchPortrait src={img(file)} alt={person.full} motif={Motif} />
+        <ArchPortrait src={img(file)} alt={person.full} />
 
         <div className="mt-4 text-center">
           <p className="font-body text-[9px] uppercase tracking-luxe text-dusty">
             {role}
           </p>
-          <h3 className="mt-2 font-title text-[23px] leading-tight text-mahogany sm:min-h-[2.4em]">
+          <h3 className="mt-2 text-balance font-title text-[23px] leading-tight text-mahogany sm:min-h-[2.4em]">
             {person.full}
           </h3>
 
@@ -96,7 +95,7 @@ export default function CoupleProfile() {
 
   return (
     <section className="relative overflow-hidden bg-cream px-5 py-20">
-      <div className="pointer-events-none absolute inset-0 pattern-lace opacity-[0.07]" />
+      <SectionDecor floral="left" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px gold-rule" />
 
       <div className="relative mx-auto max-w-[720px]">
@@ -136,12 +135,6 @@ export default function CoupleProfile() {
         </Reveal>
       </div>
 
-      <FloralCluster className="pointer-events-none absolute -bottom-10 -left-12 h-40 w-40 opacity-80" />
-      <FloralCluster
-        className="pointer-events-none absolute -bottom-12 -right-12 h-36 w-36 opacity-80"
-        flip
-        variant={1}
-      />
     </section>
   );
 }

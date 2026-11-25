@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { wedding } from "../data/wedding";
 import { Reveal, SectionTitle } from "./ui/Reveal";
-import { MosqueSkyline, FloralCluster } from "./ui/Ornaments";
+import { MosqueSkyline, SectionDecor } from "./ui/Ornaments";
 
 function diff(target) {
   const ms = target - Date.now();
@@ -47,11 +47,9 @@ export default function Countdown() {
     <section
       className="relative overflow-hidden bg-cream px-5 py-20"
     >
+      <SectionDecor floral="left" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-8 text-mahogany/[0.07] pattern-parang" />
-      <div className="pointer-events-none absolute inset-0 pattern-lace opacity-[0.05]" />
-      <MosqueSkyline className="pointer-events-none absolute inset-x-0 bottom-0 h-16 w-full text-mahogany/[0.07]" />
-      <FloralCluster className="pointer-events-none absolute -bottom-10 -left-12 h-32 w-32 opacity-80" />
-      <FloralCluster className="pointer-events-none absolute -bottom-12 -right-12 h-32 w-32 opacity-80" flip variant={1} />
+      <MosqueSkyline className="pointer-events-none absolute inset-x-0 bottom-0 h-16 w-full text-mahogany/[0.09]" />
 
       <div className="relative mx-auto max-w-[420px]">
         <Reveal>

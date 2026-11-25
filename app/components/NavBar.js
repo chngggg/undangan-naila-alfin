@@ -14,16 +14,16 @@ export default function NavBar({ visible }) {
   const [active, setActive] = useState("mempelai");
 
   useEffect(() => {
-    const ids = [...ITEMS.map((i) => i.id), "penutup"];
     const onScroll = () => {
       let current = "mempelai";
-      for (const id of ids) {
-        const el = document.getElementById(id);
+      for (const item of ITEMS) {
+        const el = document.getElementById(item.id);
         if (!el) continue;
         if (el.getBoundingClientRect().top <= window.innerHeight * 0.4) {
-          current = id;
+          current = item.id;
         }
       }
+      // halaman penutup tidak punya menu sendiri — biarkan "hadiah" tetap aktif
       setActive(current);
     };
     onScroll();

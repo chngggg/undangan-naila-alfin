@@ -4,10 +4,10 @@ import { wedding } from "../data/wedding";
 import { Reveal, SectionTitle } from "./ui/Reveal";
 import {
   GoldDivider,
-  FloralCluster,
   MosqueSkyline,
   LaceCorner,
   TampukManggis,
+  SectionDecor,
 } from "./ui/Ornaments";
 
 export default function EventDetails() {
@@ -15,11 +15,10 @@ export default function EventDetails() {
 
   return (
     <section className="relative overflow-hidden bg-ivory px-5 py-20">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,#fffdf9,transparent_60%)]" />
-      <div className="pointer-events-none absolute inset-0 pattern-lace opacity-[0.06]" />
-      <LaceCorner className="pointer-events-none absolute left-2 top-12 h-16 w-16 text-champagne/60" />
+      <SectionDecor floral="right" />
+      <LaceCorner className="pointer-events-none absolute left-2 top-12 h-16 w-16 text-champagne/45" />
       <LaceCorner
-        className="pointer-events-none absolute right-2 top-12 h-16 w-16 text-champagne/60"
+        className="pointer-events-none absolute right-2 top-12 h-16 w-16 text-champagne/45"
         rotate={90}
       />
 
@@ -146,9 +145,7 @@ export default function EventDetails() {
         </Reveal>
       </div>
 
-      <FloralCluster className="pointer-events-none absolute -bottom-12 -left-12 h-36 w-36 opacity-85" variant={1} />
-      <FloralCluster className="pointer-events-none absolute -bottom-10 -right-12 h-32 w-32 opacity-85" flip />
-      <MosqueSkyline className="pointer-events-none absolute inset-x-0 bottom-0 h-12 w-full text-mahogany/[0.08]" />
+      <MosqueSkyline className="pointer-events-none absolute inset-x-0 bottom-0 h-12 w-full text-mahogany/[0.1]" />
     </section>
   );
 }

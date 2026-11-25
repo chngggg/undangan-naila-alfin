@@ -162,16 +162,48 @@ Supaya undangan terasa "berisi" seperti referensi, ada set ornamen di
 
 | Komponen | Bentuk |
 |---|---|
-| `FloralCluster` | Rangkaian bunga maroon/blush/cream + daun (2 varian) |
+| `OgeeArch` | Lengkung ogee/Moorish berujung runcing, garis ganda (cover) |
+| `ArabesqueCorner` | Panel lattice geometris padat untuk sudut atas cover |
+| `FloralSpray` | Semprot bunga asimetris gaya cat air (sudut halaman) |
+| `Filigree` | Lengkung filigri untuk sudut bawah halaman |
+| `MosqueIcon` | Ikon masjid garis tipis (puncak lengkung) |
+| `SectionDecor` | **Satu komponen latar untuk semua halaman** (lihat di bawah) |
+| `FloralCluster` | Rangkaian bunga maroon/blush/cream (versi lama, masih ada) |
 | `Lantern` | Lentera gantung emas, ikut bergoyang |
 | `MosqueSkyline` | Siluet kubah & menara untuk kaki halaman |
-| `OrnateArch` | Lengkung berenda (dipakai cover) |
 | `GoldDivider` | Pembatas emas dengan permata |
 | `LaceCorner` | Sudut renda tipis |
 | `BatikLeafFrame` | Sulur batik bergerak di tepi (kawung/parang + tampuk manggis) |
 
-Latar memakai `.pattern-lace` (lattice geometris Islam) dan `.gold-rule` (garis
-emas) dari `globals.css`.
+#### `SectionDecor` — latar seragam tiap halaman
+
+Setiap section cukup memanggil satu baris:
+
+```jsx
+<SectionDecor floral="left" />
+```
+
+Yang otomatis ditambahkan:
+
+- vignette hangat (cahaya atas + bayangan bawah)
+- semprot bunga asimetris di satu sudut
+- filigri di sudut berlawanan
+- bingkai garis rambut + renda di dua sudut atas
+
+Opsi:
+
+| Prop | Nilai | Efek |
+|---|---|---|
+| `floral` | `"left"` / `"right"` / `"none"` | sisi penempatan bunga |
+| `frame` | `true` / `false` | tampilkan bingkai garis |
+| `tone` | `"light"` / `"dark"` | warna ornamen untuk latar gelap |
+
+Contoh pemakaian: `floral="right"` di Pembuka & Acara, `floral="left"` di
+Mempelai & RSVP, dan `floral="none" tone="dark" frame={false}` di Penutup
+(latar maroon).
+
+Latar juga memakai `.pattern-lace` (lattice geometris Islam) dan `.gold-rule`
+(garis emas) dari `globals.css`.
 
 Animasi: `leafSway`, `leafSwayAlt`, `vineBreathe` — otomatis berhenti bila
 pengunjung mengaktifkan *reduce motion*.

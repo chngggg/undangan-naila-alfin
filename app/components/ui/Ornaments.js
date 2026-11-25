@@ -1,5 +1,7 @@
 "use client";
 
+import { useId } from "react";
+
 /* ============================================================
    ORNAMEN — garis tipis, motif Jawa (kawung/parang) &
    motif Jambi (angso duo / tampuk manggis)
@@ -523,6 +525,288 @@ export function LaceCorner({ className = "", rotate = 0 }) {
         <path d="M30 30c8-4 14 2 12 10-8 2-14-2-12-10Z" opacity="0.7" />
       </g>
     </svg>
+  );
+}
+
+/* ============================================================
+   GAYA REFERENSI — lengkung ogee Moorish, panel arabesque padat,
+   semprot bunga asimetris, filigri, ikon masjid.
+   ============================================================ */
+
+/* lengkung ogee (Moorish) berujung runcing, garis ganda */
+export function OgeeArch({ className = "" }) {
+  return (
+    <svg
+      viewBox="0 0 300 470"
+      className={className}
+      aria-hidden="true"
+      preserveAspectRatio="none"
+      fill="none"
+    >
+      {/* garis luar */}
+      <path
+        d="M7 463V212C7 170 25 141 55 119C85 97 116 66 150 11c34 55 65 86 95 108 30 22 48 51 48 93v251"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        opacity="0.8"
+      />
+      {/* garis dalam */}
+      <path
+        d="M21 463V216c0-37 16-63 44-84 30-22 62-53 85-100 23 47 55 78 85 100 28 21 44 47 44 84v247"
+        stroke="currentColor"
+        strokeWidth="0.7"
+        opacity="0.5"
+      />
+      {/* alas */}
+      <path d="M7 463h286" stroke="currentColor" strokeWidth="1.3" opacity="0.8" />
+      <path d="M21 463h258" stroke="currentColor" strokeWidth="0.7" opacity="0.45" />
+      {/* puncak */}
+      <path d="M150 0l5 7-5 7-5-7 5-7Z" stroke="currentColor" strokeWidth="0.9" opacity="0.9" />
+      <circle cx="150" cy="24" r="1.6" fill="currentColor" opacity="0.7" />
+    </svg>
+  );
+}
+
+/* panel arabesque padat — pengisi sudut atas cover */
+export function ArabesqueCorner({ className = "", flip = false }) {
+  const raw = useId();
+  const uid = `arab-${raw.replace(/[^a-zA-Z0-9]/g, "")}`;
+
+  return (
+    <svg
+      viewBox="0 0 160 300"
+      className={className}
+      aria-hidden="true"
+      preserveAspectRatio="none"
+      style={flip ? { transform: "scaleX(-1)" } : undefined}
+    >
+      <defs>
+        <pattern id={uid} width="34" height="34" patternUnits="userSpaceOnUse">
+          <g fill="none" stroke="currentColor" strokeWidth="0.7">
+            <path d="M17 0 34 17 17 34 0 17Z" />
+            <path d="M0 0 34 34M34 0 0 34" opacity="0.55" />
+            <circle cx="17" cy="17" r="5" opacity="0.8" />
+            <circle cx="0" cy="0" r="1.6" />
+            <circle cx="34" cy="0" r="1.6" />
+            <circle cx="0" cy="34" r="1.6" />
+            <circle cx="34" cy="34" r="1.6" />
+          </g>
+        </pattern>
+      </defs>
+
+      {/* badan panel: penuh di sudut atas, melengkung ke bawah */}
+      <path
+        d="M0 0h132v96c0 62-34 106-90 130L0 244Z"
+        fill={`url(#${uid})`}
+      />
+      {/* tepi dalam */}
+      <path
+        d="M132 0v96c0 62-34 106-90 130"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.1"
+        opacity="0.85"
+      />
+      <path
+        d="M138 0v94c0 66-37 112-96 138"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="0.6"
+        opacity="0.5"
+      />
+    </svg>
+  );
+}
+
+/* semprot bunga asimetris (gaya cat air) untuk sudut halaman */
+export function FloralSpray({ className = "", flip = false, variant = 0 }) {
+  const maroon = "#6d2b31";
+  const deep = "#4e1a1f";
+  const blush = "#b77f7c";
+  const blushDeep = "#a06b68";
+  const cream = "#f4e7d5";
+  const creamDeep = "#e8d5bd";
+  const nude = "#e7d6c4";
+  const gold = "#c6a15f";
+  const green = "#8a8b76";
+  const green2 = "#a5a68f";
+
+  const blooms =
+    variant === 0
+      ? [
+          { cx: 92, cy: 132, r: 31, a: maroon, b: deep },
+          { cx: 140, cy: 100, r: 22, a: blush, b: blushDeep },
+          { cx: 60, cy: 92, r: 20, a: cream, b: creamDeep },
+          { cx: 124, cy: 176, r: 17, a: maroon, b: deep, p: 5 },
+          { cx: 168, cy: 146, r: 13, a: nude, b: creamDeep, p: 5 },
+          { cx: 40, cy: 152, r: 13, a: blush, b: blushDeep, p: 5 },
+        ]
+      : [
+          { cx: 100, cy: 124, r: 28, a: blush, b: blushDeep },
+          { cx: 56, cy: 96, r: 21, a: maroon, b: deep },
+          { cx: 146, cy: 148, r: 19, a: cream, b: creamDeep },
+          { cx: 74, cy: 178, r: 15, a: maroon, b: deep, p: 5 },
+          { cx: 152, cy: 96, r: 12, a: nude, b: creamDeep, p: 5 },
+        ];
+
+  return (
+    <svg
+      viewBox="0 0 220 240"
+      className={className}
+      aria-hidden="true"
+      style={flip ? { transform: "scaleX(-1)" } : undefined}
+    >
+      {/* tangkai */}
+      <g fill="none" stroke={green} strokeWidth="1.6" strokeLinecap="round" opacity="0.8">
+        <path d="M6 236C34 196 54 160 66 118" />
+        <path d="M6 236C46 214 84 186 108 152" />
+        <path d="M6 236C24 206 34 172 38 140" opacity="0.7" />
+        <path d="M66 118C84 108 102 106 118 110" opacity="0.6" />
+        <path d="M108 152C124 158 138 168 146 182" opacity="0.6" />
+      </g>
+
+      {/* daun */}
+      <LeafShape x={34} y={192} r={-38} s={1.15} fill={green} />
+      <LeafShape x={58} y={158} r={-16} s={1.0} fill={green2} />
+      <LeafShape x={78} y={196} r={30} s={0.95} fill={green} />
+      <LeafShape x={48} y={122} r={-48} s={0.9} fill={green2} />
+      <LeafShape x={118} y={134} r={22} s={0.85} fill={green} />
+      <LeafShape x={132} y={196} r={44} s={0.8} fill={green2} />
+
+      {/* bunga */}
+      {blooms.map((b, i) => (
+        <Bloom
+          key={i}
+          cx={b.cx}
+          cy={b.cy}
+          r={b.r}
+          fill={b.a}
+          fill2={b.b}
+          petals={b.p || 6}
+          core={gold}
+        />
+      ))}
+
+      {/* kuncup + butir kecil */}
+      <ellipse cx="182" cy="112" rx="5" ry="9" transform="rotate(28 182 112)" fill={maroon} opacity="0.85" />
+      <ellipse cx="30" cy="112" rx="4.5" ry="8" transform="rotate(-34 30 112)" fill={maroon} opacity="0.85" />
+      <g fill={cream} opacity="0.85">
+        <circle cx="176" cy="182" r="2.4" />
+        <circle cx="190" cy="166" r="1.9" />
+        <circle cx="22" cy="82" r="2.2" />
+        <circle cx="8" cy="104" r="1.8" />
+      </g>
+      <g fill={gold} opacity="0.7">
+        <circle cx="158" cy="204" r="1.8" />
+        <circle cx="46" cy="70" r="1.7" />
+      </g>
+    </svg>
+  );
+}
+
+/* filigri lengkung untuk sudut bawah halaman */
+export function Filigree({ className = "", flip = false }) {
+  return (
+    <svg
+      viewBox="0 0 160 160"
+      className={className}
+      aria-hidden="true"
+      fill="none"
+      style={flip ? { transform: "scaleX(-1)" } : undefined}
+    >
+      <g stroke="currentColor" strokeWidth="0.8" strokeLinecap="round">
+        <path d="M8 158A150 150 0 0 1 158 8" opacity="0.75" />
+        <path d="M40 158A118 118 0 0 1 158 40" opacity="0.6" />
+        <path d="M72 158A86 86 0 0 1 158 72" opacity="0.45" />
+        <path d="M104 158A54 54 0 0 1 158 104" opacity="0.32" />
+        <path d="M150 150c-14-4-24-14-28-28" opacity="0.6" />
+        <path d="M124 158c-2-12-10-22-22-26" opacity="0.45" />
+      </g>
+      <circle cx="158" cy="158" r="3.5" fill="currentColor" opacity="0.5" />
+    </svg>
+  );
+}
+
+/* ikon masjid garis tipis */
+export function MosqueIcon({ className = "" }) {
+  return (
+    <svg viewBox="0 0 48 34" className={className} aria-hidden="true" fill="none">
+      <g stroke="currentColor" strokeWidth="1.1" strokeLinejoin="round" strokeLinecap="round">
+        <path d="M24 4c0-1.6-.8-2.6-.8-2.6S22.4 2.4 22.4 4" opacity="0.8" />
+        <path d="M16.5 17c0-4.2 3.4-7.5 7.5-7.5s7.5 3.3 7.5 7.5" />
+        <path d="M15 17h18v13H15z" />
+        <path d="M19 30v-6a5 5 0 0 1 10 0v6" opacity="0.7" />
+        <path d="M9 30V13M39 30V13" />
+        <path d="M7.5 13h3M37.5 13h3" />
+        <path d="M5 30h38" opacity="0.6" />
+      </g>
+    </svg>
+  );
+}
+
+/* ============================================================
+   DEKORASI LATAR BERSAMA
+   Satu komponen untuk semua halaman: vignette hangat, semprot
+   bunga asimetris, filigri, dan bingkai garis rambut.
+   ============================================================ */
+
+export function SectionDecor({
+  className = "",
+  floral = "left",
+  frame = true,
+  tone = "light",
+}) {
+  const isDark = tone === "dark";
+  return (
+    <div
+      className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}
+      aria-hidden="true"
+    >
+      {/* cahaya atas + vignette bawah */}
+      <div className="absolute inset-0 bg-[radial-gradient(115%_70%_at_50%_0%,#fffdf9_0%,rgba(255,253,249,0)_58%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(95%_65%_at_50%_100%,rgba(176,142,110,0.16)_0%,rgba(176,142,110,0)_62%)]" />
+
+      {/* semprot bunga asimetris */}
+      {floral !== "none" && (
+        <FloralSpray
+          className={`absolute -bottom-6 h-36 w-32 opacity-70 ${
+            floral === "left" ? "-left-11" : "-right-11"
+          }`}
+          flip={floral !== "left"}
+          variant={floral === "left" ? 0 : 1}
+        />
+      )}
+
+      {/* filigri di sudut berlawanan */}
+      <Filigree
+        className={`absolute bottom-0 h-24 w-24 ${
+          isDark ? "text-champagne/25" : "text-champagne/55"
+        } ${floral === "right" ? "-left-2" : "-right-2"}`}
+        flip={floral !== "right"}
+      />
+
+      {/* bingkai garis rambut + sudut renda */}
+      {frame && (
+        <>
+          <div
+            className={`absolute inset-3 border ${
+              isDark ? "border-champagne/20" : "border-mahogany/12"
+            }`}
+          />
+          <LaceCorner
+            className={`absolute left-3 top-3 h-7 w-7 ${
+              isDark ? "text-champagne/40" : "text-champagne/65"
+            }`}
+          />
+          <LaceCorner
+            className={`absolute right-3 top-3 h-7 w-7 ${
+              isDark ? "text-champagne/40" : "text-champagne/65"
+            }`}
+            rotate={90}
+          />
+        </>
+      )}
+    </div>
   );
 }
 

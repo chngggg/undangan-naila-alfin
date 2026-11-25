@@ -7,11 +7,11 @@ import { img } from "../lib/images";
 import { Reveal } from "./ui/Reveal";
 import {
   GoldDivider,
-  FloralCluster,
   Lantern,
   MosqueSkyline,
   TampukManggis,
   KawungBand,
+  SectionDecor,
 } from "./ui/Ornaments";
 
 export default function Opening() {
@@ -19,8 +19,8 @@ export default function Opening() {
 
   return (
     <section className="relative overflow-hidden bg-ivory px-6 pt-16 pb-16">
-      {/* latar bertekstur + renda */}
-      <div className="pointer-events-none absolute inset-0 pattern-lace opacity-[0.06]" />
+      {/* latar: vignette hangat + semprot bunga + bingkai */}
+      <SectionDecor floral="right" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-ivory to-transparent" />
       <KawungBand className="pointer-events-none absolute inset-x-0 top-2 h-3 w-full text-mahogany/10" />
 
@@ -39,7 +39,7 @@ export default function Opening() {
           <p className="font-arabic text-[17px] leading-loose text-mahogany/85">
             السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ
           </p>
-          <p className="mt-3 font-body text-[10px] uppercase tracking-wide-2 text-dusty">
+          <p className="mt-3 max-w-[340px] text-balance font-body text-[10px] uppercase tracking-wide-2 text-dusty">
             Assalamu&apos;alaikum Warahmatullahi Wabarakatuh
           </p>
         </Reveal>
@@ -94,13 +94,7 @@ export default function Opening() {
       </div>
 
       {/* bunga sudut + siluet masjid */}
-      <FloralCluster className="pointer-events-none absolute -bottom-8 -left-10 h-40 w-40 opacity-90" />
-      <FloralCluster
-        className="pointer-events-none absolute -bottom-10 -right-10 h-36 w-36 opacity-90"
-        flip
-        variant={1}
-      />
-      <MosqueSkyline className="pointer-events-none absolute inset-x-0 bottom-0 h-14 w-full text-mahogany/[0.08]" />
+      <MosqueSkyline className="pointer-events-none absolute inset-x-0 bottom-0 h-14 w-full text-mahogany/[0.1]" />
     </section>
   );
 }

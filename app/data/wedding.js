@@ -53,7 +53,7 @@ export const wedding = {
   opening:
     "Maha Suci Allah SWT yang telah menciptakan makhluk-Nya berpasang-pasangan.",
   intention:
-    "Ya Allah, perkenankanlah kami menyatukan langkah dan izinkan kami menikahkan putra putri kami pada 26 Desember 2026.",
+    "Ya Allah, perkenankanlah kami menyatukan langkah dan izinkan kami menikahkan putra putri kami pada 26\u00A0Desember\u00A02026.",
   doa: "Semoga Allah memberkahimu dan memberkahi atasmu serta mengumpulkan kamu berdua dalam kebaikan.",
   closingVerse:
     "بَارَكَ اللهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ",

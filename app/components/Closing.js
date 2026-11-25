@@ -8,8 +8,8 @@ import {
   KawungBand,
   MihrabArch,
   MosqueSkyline,
-  FloralCluster,
   Lantern,
+  SectionDecor,
 } from "./ui/Ornaments";
 
 export default function Closing() {
@@ -19,6 +19,7 @@ export default function Closing() {
     <section
       className="relative overflow-hidden bg-maroon-deep px-6 pb-24 pt-20 text-cream"
     >
+      <SectionDecor floral="none" tone="dark" frame={false} />
       <div className="pointer-events-none absolute inset-0 pattern-lace opacity-[0.1]" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(198,161,95,0.26),transparent_62%)]" />
 
@@ -62,10 +63,10 @@ export default function Closing() {
             <p className="font-body text-[9px] uppercase tracking-luxe text-cream/50">
               Kami yang berbahagia
             </p>
-            <p className="mt-3 font-couple text-[30px] leading-tight text-cream">
+            <p className="mt-3 font-script text-[38px] leading-tight text-cream">
               {bride.short}
-              <span className="mx-1.5 font-script text-[22px] text-champagne/80 align-middle">
-                &
+              <span className="mx-2 align-middle font-couple text-[17px] italic text-champagne/80">
+                &amp;
               </span>
               {groom.short}
             </p>
@@ -92,8 +93,6 @@ export default function Closing() {
         </Reveal>
       </div>
 
-      <FloralCluster className="pointer-events-none absolute -bottom-12 -left-14 h-40 w-40 opacity-70" />
-      <FloralCluster className="pointer-events-none absolute -bottom-14 -right-14 h-36 w-36 opacity-70" flip variant={1} />
       <MosqueSkyline className="pointer-events-none absolute inset-x-0 bottom-0 h-16 w-full text-champagne/[0.14]" />
     </section>
   );
