@@ -10,6 +10,7 @@ import {
   TampukManggis,
   SectionDecor,
 } from "./ui/Ornaments";
+import { MedallionArt, WideFloral } from "./ui/PngOrnaments";
 
 /* potret dalam lengkung berenda */
 function ArchPortrait({ src, alt }) {
@@ -94,7 +95,7 @@ export default function CoupleProfile() {
   const { bride, groom } = wedding;
 
   return (
-    <section className="relative overflow-hidden bg-cream px-5 py-20">
+    <section className="relative overflow-hidden bg-cream px-5 pt-20 pb-32">
       <SectionDecor floral="left" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px gold-rule" />
 
@@ -116,7 +117,7 @@ export default function CoupleProfile() {
           >
             <div className="flex flex-col items-center gap-2">
               <span className="h-8 w-px bg-gradient-to-b from-transparent to-champagne sm:h-14" />
-              <span className="font-script text-3xl text-dusty/85">&amp;</span>
+              <MedallionArt width="w-12" delay={0.35} anim="float" />
               <span className="h-8 w-px bg-gradient-to-t from-transparent to-champagne sm:h-14" />
             </div>
           </Reveal>
@@ -135,6 +136,7 @@ export default function CoupleProfile() {
         </Reveal>
       </div>
 
+      <WideFloral side="right" variant="b" width="w-40" delay={0.5} anim="drift" className="opacity-80" />
     </section>
   );
 }

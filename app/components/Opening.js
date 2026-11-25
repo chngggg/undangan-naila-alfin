@@ -8,17 +8,17 @@ import { Reveal } from "./ui/Reveal";
 import {
   GoldDivider,
   Lantern,
-  MosqueSkyline,
   TampukManggis,
   KawungBand,
   SectionDecor,
 } from "./ui/Ornaments";
+import { PavilionArt, WideFloral } from "./ui/PngOrnaments";
 
 export default function Opening() {
   const { opening, intention, event } = wedding;
 
   return (
-    <section className="relative overflow-hidden bg-ivory px-6 pt-16 pb-16">
+    <section className="relative overflow-hidden bg-ivory px-6 pt-16 pb-28">
       {/* latar: vignette hangat + semprot bunga + bingkai */}
       <SectionDecor floral="right" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-ivory to-transparent" />
@@ -34,7 +34,7 @@ export default function Opening() {
         delay={1.5}
       />
 
-      <div className="relative mx-auto max-w-[400px] text-center">
+      <div className="relative z-10 mx-auto max-w-[400px] text-center">
         <Reveal>
           <p className="font-arabic text-[17px] leading-loose text-mahogany/85">
             السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ
@@ -93,8 +93,14 @@ export default function Opening() {
         </Reveal>
       </div>
 
-      {/* bunga sudut + siluet masjid */}
-      <MosqueSkyline className="pointer-events-none absolute inset-x-0 bottom-0 h-14 w-full text-mahogany/[0.1]" />
+      {/* bunga sudut + rumah adat */}
+      <PavilionArt
+        className="pointer-events-none absolute -bottom-1 left-0 opacity-60"
+        width="w-24"
+        delay={0.45}
+        anim="breathe"
+      />
+      <WideFloral side="right" variant="b" width="w-32" delay={0.7} anim="drift" className="opacity-75" />
     </section>
   );
 }

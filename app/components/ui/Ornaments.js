@@ -1,6 +1,7 @@
 "use client";
 
 import { useId } from "react";
+import { WideFloral } from "./PngOrnaments";
 
 /* ============================================================
    ORNAMEN — garis tipis, motif Jawa (kawung/parang) &
@@ -755,6 +756,8 @@ export function SectionDecor({
   floral = "left",
   frame = true,
   tone = "light",
+  variant = "a",
+  floralSize = "w-48",
 }) {
   const isDark = tone === "dark";
   return (
@@ -762,18 +765,25 @@ export function SectionDecor({
       className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}
       aria-hidden="true"
     >
-      {/* cahaya atas + vignette bawah */}
-      <div className="absolute inset-0 bg-[radial-gradient(115%_70%_at_50%_0%,#fffdf9_0%,rgba(255,253,249,0)_58%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(95%_65%_at_50%_100%,rgba(176,142,110,0.16)_0%,rgba(176,142,110,0)_62%)]" />
+      {isDark ? (
+        /* latar gelap: cukup pendar champagne hangat, jangan ditimpa krem */
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_16%,rgba(198,161,95,0.24),transparent_62%)]" />
+      ) : (
+        <>
+          {/* cahaya atas + vignette bawah */}
+          <div className="absolute inset-0 bg-[radial-gradient(115%_70%_at_50%_0%,#fffdf9_0%,rgba(255,253,249,0)_58%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(95%_65%_at_50%_100%,rgba(176,142,110,0.16)_0%,rgba(176,142,110,0)_62%)]" />
+        </>
+      )}
 
-      {/* semprot bunga asimetris */}
-      {floral !== "none" && (
-        <FloralSpray
-          className={`absolute -bottom-6 h-36 w-32 opacity-70 ${
-            floral === "left" ? "-left-11" : "-right-11"
-          }`}
-          flip={floral !== "left"}
-          variant={floral === "left" ? 0 : 1}
+      {/* semprot bunga PNG (hanya di latar terang) */}
+      {floral !== "none" && !isDark && (
+        <WideFloral
+          side={floral}
+          variant={variant}
+          width={floralSize}
+          delay={0.25}
+          className="opacity-90"
         />
       )}
 

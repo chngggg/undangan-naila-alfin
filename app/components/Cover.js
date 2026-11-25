@@ -2,16 +2,14 @@
 
 import { motion } from "framer-motion";
 import { wedding } from "../data/wedding";
+import { OgeeArch, ArabesqueCorner, GoldDivider, AngsoDuo } from "./ui/Ornaments";
 import {
-  OgeeArch,
-  ArabesqueCorner,
-  GoldDivider,
-  FloralSpray,
-  Lantern,
-  MosqueSkyline,
-  MosqueIcon,
-  AngsoDuo,
-} from "./ui/Ornaments";
+  CornerFloral,
+  WideFloral,
+  MosqueArt,
+  LanternArt,
+  MedallionArt,
+} from "./ui/PngOrnaments";
 
 export default function Cover({ onOpen, guest }) {
   const { bride, groom, event } = wedding;
@@ -38,9 +36,9 @@ export default function Cover({ onOpen, guest }) {
           flip
         />
 
-        {/* lentera gantung */}
-        <Lantern className="pointer-events-none absolute left-5 top-0 h-24 w-8 text-champagne/75" delay={0.2} />
-        <Lantern className="pointer-events-none absolute right-6 top-0 h-32 w-10 text-champagne/65" delay={1.2} />
+        {/* lentera gantung (PNG) */}
+        <LanternArt className="absolute left-6 top-0 opacity-90" height="h-20" delay={0.15} anim="sway" />
+        <LanternArt className="absolute right-7 top-0 opacity-85" height="h-28" delay={1.1} anim="sway" />
 
         {/* konten */}
         <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 py-6">
@@ -54,7 +52,7 @@ export default function Cover({ onOpen, guest }) {
               <OgeeArch className="pointer-events-none absolute inset-0 h-full w-full text-mahogany/45" />
 
               <div className="relative flex flex-col items-center px-7 pt-12 pb-6">
-                <MosqueIcon className="h-5 w-8 text-mahogany/55" />
+                <MedallionArt className="opacity-90" width="w-9" delay={0.3} anim="float" />
 
                 <p className="mt-2.5 font-arabic text-[14px] leading-loose text-mahogany/90">
                   بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ
@@ -129,9 +127,22 @@ export default function Cover({ onOpen, guest }) {
           </motion.div>
         </div>
 
-        {/* bunga asimetris kiri-bawah + siluet masjid */}
-        <FloralSpray className="pointer-events-none absolute -bottom-8 -left-10 h-52 w-48 opacity-95" />
-        <MosqueSkyline className="pointer-events-none absolute inset-x-0 bottom-0 h-16 w-full text-mahogany/[0.13]" />
+        {/* ---- ornamen PNG: masjid + bunga bergerak ---- */}
+        <MosqueArt
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 opacity-45"
+          width="w-56"
+          delay={0.5}
+          anim="breathe"
+        />
+        <CornerFloral side="left" height="h-52" delay={0.2} anim="sway" />
+        <WideFloral
+          side="right"
+          variant="a"
+          width="w-40"
+          delay={0.6}
+          anim="drift"
+          className="opacity-85"
+        />
 
         {/* bingkai garis rambut */}
         <div className="pointer-events-none absolute inset-2.5 border border-mahogany/20" />

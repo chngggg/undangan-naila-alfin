@@ -34,7 +34,7 @@ export default function RSVP() {
     "w-full rounded-[4px] border border-mahogany/20 bg-ivory px-3.5 py-2.5 font-body text-[12px] text-mahogany placeholder:text-dusty/70 outline-none transition-colors focus:border-champagne focus:bg-white";
 
   return (
-    <section className="relative overflow-hidden bg-cream px-5 py-20">
+    <section className="relative overflow-hidden bg-cream px-5 pt-20 pb-32">
       <SectionDecor floral="left" />
 
       <div className="relative mx-auto max-w-[420px]">

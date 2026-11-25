@@ -21,7 +21,6 @@ export default function Closing() {
     >
       <SectionDecor floral="none" tone="dark" frame={false} />
       <div className="pointer-events-none absolute inset-0 pattern-lace opacity-[0.1]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(198,161,95,0.26),transparent_62%)]" />
 
       {/* lentera gantung */}
       <Lantern className="pointer-events-none absolute left-4 top-0 h-24 w-8 text-champagne/70" delay={0.5} />

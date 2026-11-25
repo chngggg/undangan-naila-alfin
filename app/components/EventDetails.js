@@ -4,18 +4,18 @@ import { wedding } from "../data/wedding";
 import { Reveal, SectionTitle } from "./ui/Reveal";
 import {
   GoldDivider,
-  MosqueSkyline,
   LaceCorner,
   TampukManggis,
   SectionDecor,
 } from "./ui/Ornaments";
+import { CornerFloral } from "./ui/PngOrnaments";
 
 export default function EventDetails() {
   const { event, quote } = wedding;
 
   return (
-    <section className="relative overflow-hidden bg-ivory px-5 py-20">
-      <SectionDecor floral="right" />
+    <section className="relative overflow-hidden bg-ivory px-5 pt-20 pb-36">
+      <SectionDecor floral="none" />
       <LaceCorner className="pointer-events-none absolute left-2 top-12 h-16 w-16 text-champagne/45" />
       <LaceCorner
         className="pointer-events-none absolute right-2 top-12 h-16 w-16 text-champagne/45"
@@ -145,7 +145,14 @@ export default function EventDetails() {
         </Reveal>
       </div>
 
-      <MosqueSkyline className="pointer-events-none absolute inset-x-0 bottom-0 h-12 w-full text-mahogany/[0.1]" />
+      <CornerFloral
+        side="right"
+        height="h-32"
+        delay={0.3}
+        anim="sway"
+        inset="-right-12"
+        className="opacity-80"
+      />
     </section>
   );
 }
