@@ -155,22 +155,65 @@ Palet mengikuti referensi kolase:
 Ubah di `app/globals.css` bagian `@theme`. Semua komponen membaca token ini, jadi
 satu perubahan berlaku menyeluruh.
 
-### Ornamen pengisi
+### Ornamen PNG (bunga, masjid, rumah adat)
 
-Supaya undangan terasa "berisi" seperti referensi, ada set ornamen di
+File gambar ada di `public/images/ornaments/`, dipakai lewat
+`app/components/ui/PngOrnaments.js`:
+
+| File | Isi |
+|---|---|
+| `floral-tall.png` | Bunga tinggi (sudut halaman) |
+| `floral-wide-a.png` / `floral-wide-b.png` | Semprot bunga mendatar |
+| `mosque.png` | Masjid + bunga (siluet kaki halaman) |
+| `pavilion.png` | Rumah adat bertingkat (aksen Jambi) |
+| `lantern.png` | Lentera gantung |
+| `medallion.png` | Medali arabesque (pengganti pembatas) |
+| `arch.png` | Lengkung ogee emas |
+
+Komponen siap pakai:
+
+```jsx
+import { CornerFloral, WideFloral, MosqueArt, PavilionArt, MedallionArt, LanternArt } from "./ui/PngOrnaments";
+
+<CornerFloral side="left" height="h-52" delay={0.2} anim="sway" />
+<WideFloral side="right" variant="a" width="w-40" anim="drift" />
+<MosqueArt width="w-56" anim="breathe" />
+<PavilionArt width="w-24" anim="breathe" />
+<MedallionArt width="w-12" anim="float" />
+<LanternArt height="h-20" anim="sway" />
+```
+
+Properti `Ornament` (komponen dasar):
+
+| Prop | Nilai | Keterangan |
+|---|---|---|
+| `name` | nama file tanpa `.png` | wajib |
+| `anim` | `none` `sway` `float` `drift` `breathe` | jenis gerakan |
+| `delay` | detik | biar tidak serempak |
+| `sizes` | mis. `"200px"` | petunjuk ukuran untuk `next/image` |
+| `blend` | `true` / `false` | pakai filter `.png-orn` |
+
+#### Animasi ornamen
+
+Semua ornamen memakai pola dua lapis di `globals.css`:
+
+1. `ornBloom` — muncul halus (fade + naik + membesar sedikit) saat halaman dibuka
+2. lalu salah satu gerakan berulang: `ornSway`, `ornFloat`, `ornDrift`, `ornBreathe`
+
+`prefers-reduced-motion` **tidak** mematikan animasi — hanya diperlambat
+supaya undangan tetap terasa hidup di HP yang mengaktifkan "kurangi gerakan".
+
+### Ornamen garis (SVG)
+
+Untuk garis arsitektural yang harus ikut warna teks, masih ada set SVG di
 `app/components/ui/Ornaments.js`:
 
 | Komponen | Bentuk |
 |---|---|
 | `OgeeArch` | Lengkung ogee/Moorish berujung runcing, garis ganda (cover) |
 | `ArabesqueCorner` | Panel lattice geometris padat untuk sudut atas cover |
-| `FloralSpray` | Semprot bunga asimetris gaya cat air (sudut halaman) |
 | `Filigree` | Lengkung filigri untuk sudut bawah halaman |
-| `MosqueIcon` | Ikon masjid garis tipis (puncak lengkung) |
 | `SectionDecor` | **Satu komponen latar untuk semua halaman** (lihat di bawah) |
-| `FloralCluster` | Rangkaian bunga maroon/blush/cream (versi lama, masih ada) |
-| `Lantern` | Lentera gantung emas, ikut bergoyang |
-| `MosqueSkyline` | Siluet kubah & menara untuk kaki halaman |
 | `GoldDivider` | Pembatas emas dengan permata |
 | `LaceCorner` | Sudut renda tipis |
 | `BatikLeafFrame` | Sulur batik bergerak di tepi (kawung/parang + tampuk manggis) |
@@ -183,12 +226,8 @@ Setiap section cukup memanggil satu baris:
 <SectionDecor floral="left" />
 ```
 
-Yang otomatis ditambahkan:
-
-- vignette hangat (cahaya atas + bayangan bawah)
-- semprot bunga asimetris di satu sudut
-- filigri di sudut berlawanan
-- bingkai garis rambut + renda di dua sudut atas
+Yang otomatis ditambahkan: vignette hangat, semprot bunga PNG di satu sudut,
+filigri di sudut berlawanan, bingkai garis rambut + renda di dua sudut atas.
 
 Opsi:
 
@@ -197,16 +236,14 @@ Opsi:
 | `floral` | `"left"` / `"right"` / `"none"` | sisi penempatan bunga |
 | `frame` | `true` / `false` | tampilkan bingkai garis |
 | `tone` | `"light"` / `"dark"` | warna ornamen untuk latar gelap |
+| `variant` | `"a"` / `"b"` | pilihan semprot bunga |
 
-Contoh pemakaian: `floral="right"` di Pembuka & Acara, `floral="left"` di
-Mempelai & RSVP, dan `floral="none" tone="dark" frame={false}` di Penutup
-(latar maroon).
+Contoh pemakaian: `floral="right"` di Pembuka, `floral="left"` di Mempelai &
+RSVP, `floral="none"` di Acara (agar peta tidak tertutup), dan
+`floral="none" tone="dark" frame={false}` di Penutup (latar maroon).
 
 Latar juga memakai `.pattern-lace` (lattice geometris Islam) dan `.gold-rule`
 (garis emas) dari `globals.css`.
-
-Animasi: `leafSway`, `leafSwayAlt`, `vineBreathe` — otomatis berhenti bila
-pengunjung mengaktifkan *reduce motion*.
 
 Musik: ganti `public/audio/music.mp3` (atau ubah path `music` di `wedding.js`).
 
