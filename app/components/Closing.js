@@ -1,0 +1,100 @@
+"use client";
+
+import { wedding } from "../data/wedding";
+import { Reveal } from "./ui/Reveal";
+import {
+  GoldDivider,
+  AngsoDuo,
+  KawungBand,
+  MihrabArch,
+  MosqueSkyline,
+  FloralCluster,
+  Lantern,
+} from "./ui/Ornaments";
+
+export default function Closing() {
+  const { bride, groom, closingVerse, thanks, hashtag } = wedding;
+
+  return (
+    <section
+      className="relative overflow-hidden bg-maroon-deep px-6 pb-24 pt-20 text-cream"
+    >
+      <div className="pointer-events-none absolute inset-0 pattern-lace opacity-[0.1]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(198,161,95,0.26),transparent_62%)]" />
+
+      {/* lentera gantung */}
+      <Lantern className="pointer-events-none absolute left-4 top-0 h-24 w-8 text-champagne/70" delay={0.5} />
+      <Lantern className="pointer-events-none absolute right-5 top-0 h-28 w-9 text-champagne/60" delay={1.8} />
+
+      <div className="relative mx-auto max-w-[400px] text-center">
+        <Reveal>
+          <p className="font-arabic text-[17px] leading-[2.1] text-champagne" dir="rtl">
+            {closingVerse}
+          </p>
+          <p className="mx-auto mt-4 max-w-[300px] text-balance font-body text-[10px] leading-relaxed tracking-wide text-cream/65">
+            Barakallahu lakuma wa baraka &apos;alaikuma wa jama&apos;a bainakuma fii khair.
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.1} className="mt-8 flex justify-center text-champagne/80">
+          <GoldDivider width={150} />
+        </Reveal>
+
+        <Reveal delay={0.15}>
+          <p className="mt-8 font-body text-[11px] leading-[2] text-cream/75">
+            Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila
+            Bapak/Ibu/Saudara berkenan hadir dan memberikan doa restu.
+          </p>
+          <p className="mt-4 font-body text-[11px] leading-[2] text-cream/60">
+            {thanks}
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.2}>
+          <p className="mt-10 font-body text-[9px] uppercase tracking-luxe text-cream/45">
+            Wassalamu&apos;alaikum Warahmatullahi Wabarakatuh
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.25}>
+          <div className="relative mt-10 inline-block px-8 py-6">
+            <MihrabArch className="pointer-events-none absolute inset-0 h-full w-full text-champagne/40" />
+            <p className="font-body text-[9px] uppercase tracking-luxe text-cream/50">
+              Kami yang berbahagia
+            </p>
+            <p className="mt-3 font-couple text-[30px] leading-tight text-cream">
+              {bride.short}
+              <span className="mx-1.5 font-script text-[22px] text-champagne/80 align-middle">
+                &
+              </span>
+              {groom.short}
+            </p>
+            <p className="mt-2 font-body text-[8.5px] uppercase tracking-wide-2 text-cream/45">
+              Beserta Keluarga Besar
+            </p>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.3}>
+          <div className="mt-8 flex flex-col items-center gap-3">
+            <AngsoDuo className="h-8 w-16 text-champagne/40" />
+            <p className="font-script text-[22px] text-champagne/85">{hashtag}</p>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.35}>
+          <div className="mt-10 flex flex-col items-center gap-2">
+            <KawungBand className="h-4 w-32 text-champagne/40" />
+            <p className="font-body text-[8px] uppercase tracking-luxe text-cream/45">
+              Naila &amp; Alfin · 2026
+            </p>
+          </div>
+        </Reveal>
+      </div>
+
+      <FloralCluster className="pointer-events-none absolute -bottom-12 -left-14 h-40 w-40 opacity-70" />
+      <FloralCluster className="pointer-events-none absolute -bottom-14 -right-14 h-36 w-36 opacity-70" flip variant={1} />
+      <MosqueSkyline className="pointer-events-none absolute inset-x-0 bottom-0 h-16 w-full text-champagne/[0.14]" />
+    </section>
+  );
+}

@@ -1,0 +1,214 @@
+@import "tailwindcss";
+
+/* ============================================================
+   DESIGN TOKENS — Naila & Alfin
+   Cream paper · maroon (wine) ink · antique gold accents
+   (mengikuti referensi: maroon #6D2B31, cream #F7EFE3, gold #C6A15F)
+   ============================================================ */
+@theme {
+  --color-ivory: #fbf6ed;
+  --color-cream: #f7efe3;
+  --color-cream-deep: #ead8c4;
+  --color-mahogany: #6d2b31;
+  --color-mahogany-soft: #8c454a;
+  --color-maroon-deep: #4e1a1f;
+  --color-champagne: #c6a15f;
+  --color-champagne-soft: #ebdcbf;
+  --color-dusty: #9a5f5c;
+  --color-nude: #e7d6c4;
+  --color-blush: #b77f7c;
+  --color-sepia: #c2a58e;
+
+  --font-couple: var(--font-cormorant);
+  --font-title: var(--font-playfair);
+  --font-script: var(--font-vibes);
+  --font-body: var(--font-montserrat);
+  --font-arabic: var(--font-amiri);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-mahogany);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-champagne);
+  color: var(--color-mahogany);
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-dusty);
+  border-radius: 99px;
+}
+
+/* ============================================================
+   BATIK TEXTURES — thin line ornaments, used at low opacity
+   ============================================================ */
+.pattern-kawung {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%236D2B31' stroke-width='0.8'%3E%3Cellipse cx='60' cy='28' rx='15' ry='22'/%3E%3Cellipse cx='60' cy='92' rx='15' ry='22'/%3E%3Cellipse cx='28' cy='60' rx='22' ry='15'/%3E%3Cellipse cx='92' cy='60' rx='22' ry='15'/%3E%3Cellipse cx='0' cy='0' rx='15' ry='22'/%3E%3Cellipse cx='120' cy='0' rx='15' ry='22'/%3E%3Cellipse cx='0' cy='120' rx='15' ry='22'/%3E%3Cellipse cx='120' cy='120' rx='15' ry='22'/%3E%3Ccircle cx='60' cy='60' r='1.8'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 120px 120px;
+}
+
+.pattern-parang {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%236D2B31' stroke-width='0.9' stroke-linecap='round'%3E%3Cpath d='M-10 62 C8 62 8 10 26 10 C44 10 44 62 62 62 C80 62 80 10 98 10'/%3E%3Cpath d='M-10 84 C8 84 8 32 26 32 C44 32 44 84 62 84 C80 84 80 32 98 32'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 72px 72px;
+}
+
+.pattern-grid {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%236D2B31' stroke-width='0.6'%3E%3Cpath d='M24 0 L48 24 L24 48 L0 24 Z'/%3E%3Ccircle cx='24' cy='24' r='3'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 48px 48px;
+}
+
+/* ============================================================
+   PAPER / LIGHT / FRAMES
+   ============================================================ */
+.paper {
+  background-image:
+    radial-gradient(120% 80% at 50% 0%, #fffdf9 0%, rgba(255, 253, 249, 0) 55%),
+    radial-gradient(90% 60% at 100% 100%, rgba(223, 199, 169, 0.18) 0%, rgba(223, 199, 169, 0) 60%),
+    radial-gradient(80% 60% at 0% 20%, rgba(231, 214, 199, 0.22) 0%, rgba(231, 214, 199, 0) 55%);
+}
+
+.frame-double {
+  position: relative;
+}
+.frame-double::before,
+.frame-double::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.frame-double::before {
+  border: 1px solid rgba(74, 42, 38, 0.2);
+}
+.frame-double::after {
+  inset: 5px;
+  border: 1px solid rgba(223, 199, 169, 0.75);
+}
+
+.tracking-luxe {
+  letter-spacing: 0.32em;
+}
+.tracking-wide-2 {
+  letter-spacing: 0.18em;
+}
+
+/* ============================================================
+   MOTION
+   ============================================================ */
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-floaty { animation: floatY 9s ease-in-out infinite; }
+
+@keyframes drift {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(6px, -14px, 0) rotate(6deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+}
+.animate-drift { animation: drift 14s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-floaty,
+  .animate-drift {
+    animation: none !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+/* ============================================================
+   DAUN BERGERAK — bingkai ornamen batik (kawung/parang/angso duo)
+   ============================================================ */
+@keyframes leafSway {
+  0%, 100% { transform: rotate(-4deg) translateY(0); }
+  50% { transform: rotate(5deg) translateY(-2px); }
+}
+@keyframes leafSwayAlt {
+  0%, 100% { transform: rotate(5deg) translateY(-1px); }
+  50% { transform: rotate(-4deg) translateY(1px); }
+}
+@keyframes vineBreathe {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.85; }
+}
+
+.leaf {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: leafSway 7s ease-in-out infinite;
+}
+.leaf-alt {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: leafSwayAlt 8.5s ease-in-out infinite;
+}
+.vine-breathe {
+  animation: vineBreathe 9s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leaf,
+  .leaf-alt,
+  .vine-breathe {
+    animation: none !important;
+  }
+}
+
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ============================================================
+   DESKTOP: undangan tampil sebagai satu kolom (frame) di tengah
+   ============================================================ */
+@media (min-width: 1024px) {
+  body {
+    background-color: #e3d3bd;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='none' stroke='%236D2B31' stroke-width='0.7' opacity='0.3'%3E%3Cellipse cx='80' cy='40' rx='18' ry='26'/%3E%3Cellipse cx='80' cy='120' rx='18' ry='26'/%3E%3Cellipse cx='40' cy='80' rx='26' ry='18'/%3E%3Cellipse cx='120' cy='80' rx='26' ry='18'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 160px 160px;
+  }
+}
+
+/* ============================================================
+   LACE / LATTICE — ornamen geometris Islam untuk latar
+   ============================================================ */
+.pattern-lace {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%236D2B31' stroke-width='0.55'%3E%3Cpath d='M40 4c8 12 20 24 32 32-12 8-24 20-32 32-8-12-20-24-32-32 12-8 24-20 32-32Z'/%3E%3Ccircle cx='40' cy='40' r='6'/%3E%3Cpath d='M0 40h8M72 40h8M40 0v8M40 72v8'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 80px 80px;
+}
+
+/* garis emas tipis */
+.gold-rule {
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-champagne) 20%,
+    var(--color-champagne) 80%,
+    transparent
+  );
+}
+
+
+
