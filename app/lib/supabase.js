@@ -1,20 +1,32 @@
 // Klien Supabase untuk browser.
 //
-// Isi dua variabel ini di .env.local (dan di Vercel → Settings → Environment Variables):
-//   NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
-//   NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOi...
+// Nilai di bawah adalah "publishable key" (anon key). Kunci ini MEMANG
+// dirancang untuk ditaruh di browser dan boleh terlihat publik — sama seperti
+// Google Maps API key. Keamanan data tidak bergantung pada kerahasiaan kunci
+// ini, melainkan pada:
 //
-// anon key AMAN dipakai di browser — itu kunci publik yang memang dirancang
-// untuk itu. Yang tidak boleh bocor adalah "service_role key", dan kunci itu
-// tidak dipakai di proyek ini sama sekali.
+//   1. Row Level Security (RLS) di database:
+//      - tabel `rsvp`   → tamu hanya boleh INSERT, TIDAK boleh SELECT
+//        (jadi tidak ada tamu yang bisa membaca kehadiran orang lain)
+//      - tabel `wishes` → tamu boleh INSERT & SELECT (ucapan memang
+//        ditampilkan di halaman buku tamu)
+//   2. Fungsi `admin_rsvp(pass)` yang butuh kata sandi untuk membaca rekap.
 //
-// Kalau variabel belum diisi, `isDbReady` bernilai false dan aplikasi otomatis
-// memakai localStorage supaya undangan tetap bisa dipakai (mode demo).
+// Yang TIDAK boleh ada di file ini: "service_role key" / password database.
+// Kunci itu melewati semua RLS, jadi tidak dipakai di proyek ini sama sekali.
+//
+// Bisa juga di-override lewat environment variable (mis. kalau project
+// Supabase dipindah ke akun lain):
+//   NEXT_PUBLIC_SUPABASE_URL
+//   NEXT_PUBLIC_SUPABASE_ANON_KEY
 
 import { createClient } from "@supabase/supabase-js";
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const DEFAULT_URL = "https://tzywrpczchgldrspnwrz.supabase.co";
+const DEFAULT_KEY = "sb_publishable_LXE1oVZheslGCSjfsOEA9g_9WDXjgjk";
+
+const url = process.env.NEXT_PUBLIC_SUPABASE_URL || DEFAULT_URL;
+const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || DEFAULT_KEY;
 
 export const isDbReady = Boolean(url && anonKey);
 

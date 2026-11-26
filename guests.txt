@@ -1,0 +1,11 @@
+# Daftar tamu undangan — satu nama per baris
+# Baris yang diawali # akan diabaikan.
+#
+# Setelah mengisi, jalankan:  npm run guests
+# Hasilnya: guest-links.csv (Nama Tamu + Link Undangan)
+
+Bapak Yanto
+Ibu Siti & Keluarga
+Mas Budi Santoso
+Keluarga Bapak Hartono
+Dewi & Rizky
