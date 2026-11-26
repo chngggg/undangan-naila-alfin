@@ -757,7 +757,7 @@ export function SectionDecor({
   frame = true,
   tone = "light",
   variant = "a",
-  floralSize = "w-40",
+  floralSize = "w-36",
 }) {
   const isDark = tone === "dark";
   return (
@@ -783,7 +783,7 @@ export function SectionDecor({
           variant={variant}
           width={floralSize}
           delay={0.25}
-          className="-bottom-6 opacity-80"
+          className="-bottom-10 opacity-80"
         />
       )}
 

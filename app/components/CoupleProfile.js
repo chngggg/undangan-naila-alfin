@@ -90,7 +90,7 @@ export default function CoupleProfile() {
   const { bride, groom } = wedding;
 
   return (
-    <section className="relative overflow-hidden bg-cream px-5 pt-20 pb-24">
+    <section className="relative overflow-hidden bg-cream px-5 pt-20 pb-28">
       <SectionDecor floral="left" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px gold-rule" />
 
