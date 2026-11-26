@@ -291,18 +291,83 @@ Spasi boleh ditulis `%20` atau `+`.
 
 ---
 
-## 7. RSVP & buku tamu
+## 7. RSVP & buku tamu (database)
 
-Saat ini disimpan di `localStorage` browser (`app/lib/guestbook.js`) — cukup untuk demo,
-tetapi **hanya terlihat di perangkat pengunjung itu sendiri**.
+Data disimpan di **Supabase** (Postgres). Tanpa kunci Supabase, aplikasi otomatis
+memakai `localStorage` sebagai mode demo — berguna untuk mencoba tampilan, tetapi
+data hanya terlihat di HP pengunjung itu sendiri.
 
-Untuk data yang benar-benar terkumpul, ganti 3 fungsi di `guestbook.js`
-(`readGuestbook`, `addGuestbookEntry`, `GUESTBOOK_EVENT`) dengan panggilan API,
-misalnya Supabase / Firebase / Google Sheets. Struktur data yang dipakai:
+### 7.1 Menyiapkan Supabase
 
-```js
-{ id, createdAt, name, attend, guests, message, kind }
+1. Daftar di [supabase.com](https://supabase.com) → **New project**
+2. Pilih region **Southeast Asia (Singapore)**
+3. Buka **SQL Editor → New query**, tempel isi `supabase/schema.sql`, lalu:
+   - ganti `'ganti-sandi-ini'` dengan kata sandi admin pilihanmu
+   - klik **Run**
+4. Buka **Project Settings → API**, salin dua nilai:
+   - `Project URL` → `NEXT_PUBLIC_SUPABASE_URL`
+   - `anon public` → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
+> `anon key` aman dipakai di browser. Proyek ini **tidak** memakai
+> `service_role key` sama sekali.
+
+### 7.2 Memasang kunci
+
+Lokal — buat `.env.local`:
+
+```bash
+cp .env.local.example .env.local
+# lalu isi dua nilai tadi
 ```
+
+Produksi — Vercel → project → **Settings → Environment Variables**, tambahkan dua
+variabel yang sama, lalu **Redeploy**.
+
+### 7.3 Halaman admin
+
+```
+https://domain-kalian.com/admin/<kata-sandi>
+```
+
+Isinya: statistik (total respon, hadir, tidak hadir, masih ragu, total jiwa),
+pencarian nama, filter, dan tombol **Unduh Excel** (CSV yang bisa dibuka Excel
+atau Google Sheets).
+
+Kata sandi dicek **di dalam database** lewat fungsi `admin_rsvp(pass text)`.
+Artinya `anon key` yang ada di browser tidak bisa dipakai membaca data RSVP
+tanpa tahu sandinya. Halaman ini juga ditandai `noindex` agar tidak muncul di
+Google.
+
+### 7.4 Struktur tabel
+
+| Tabel | Kolom |
+|---|---|
+| `rsvp` | `id`, `name`, `attend` (`hadir`/`ragu`/`tidak`), `guests`, `guest_slug`, `created_at` |
+| `wishes` | `id`, `name`, `message`, `guest_slug`, `created_at` |
+
+`guest_slug` menyimpan nama tamu dari link `?to=` — berguna untuk mencocokkan
+respon dengan daftar undangan yang kamu kirim.
+
+### 7.5 Membuat link per tamu
+
+1. Tulis nama tamu di `guests.txt`, satu per baris
+2. Jalankan:
+
+```bash
+npm run guests
+# atau dengan domain sendiri:
+npm run guests -- https://nailaalfin.my.id
+```
+
+3. Hasilnya `guest-links.csv` — kolom **Nama Tamu** dan **Link Undangan**,
+   siap ditempel ke WhatsApp.
+
+### 7.6 Catatan Supabase gratis
+
+Project gratis Supabase **tidur setelah 7 hari tanpa aktivitas**. Kalau tidur,
+RSVP berhenti sampai kamu buka dashboard dan restore. Selama undangan aktif dan
+ada yang membuka, ini biasanya tidak terjadi — tapi kalau mau aman, buka
+dashboard Supabase seminggu sekali.
 
 ---
 
