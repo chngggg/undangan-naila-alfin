@@ -63,6 +63,25 @@ create policy "wishes_read_public"
 
 
 -- ------------------------------------------------------------
+-- 3b. HAK AKSES TABEL
+--     Sejak 2025 Supabase TIDAK memberi izin otomatis ke role anon
+--     untuk tabel baru. Tanpa blok ini, semua insert ditolak dengan
+--     error 42501 "permission denied for table ...".
+--
+--     Perhatikan: rsvp hanya diberi INSERT (bukan SELECT), jadi tamu
+--     tidak bisa membaca daftar kehadiran orang lain.
+-- ------------------------------------------------------------
+revoke all on public.rsvp   from anon, authenticated;
+revoke all on public.wishes from anon, authenticated;
+
+grant insert on public.rsvp to anon, authenticated;
+
+grant insert, select on public.wishes to anon, authenticated;
+
+grant usage on schema public to anon, authenticated;
+
+
+-- ------------------------------------------------------------
 -- 4. FUNGSI ADMIN
 --    Halaman /admin/<sandi> memanggil fungsi ini. Kalau sandinya
 --    salah, database menolak — jadi anon key yang ada di browser
@@ -77,7 +96,7 @@ security definer
 set search_path = public
 as $$
 begin
-  if pass is distinct from 'ganti-sandi-ini' then
+  if pass is distinct from 'nailaalfin2026' then
     raise exception 'unauthorized';
   end if;
 
