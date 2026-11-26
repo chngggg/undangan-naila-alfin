@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { wedding } from "../data/wedding";
 import { Reveal, SectionTitle } from "./ui/Reveal";
 import { SectionDecor } from "./ui/Ornaments";
-import { MosqueArt } from "./ui/PngOrnaments";
 
 function diff(target) {
   const ms = target - Date.now();
@@ -46,16 +45,10 @@ export default function Countdown() {
 
   return (
     <section
-      className="relative overflow-hidden bg-cream px-5 pt-20 pb-36"
+      className="relative overflow-hidden bg-cream px-5 pt-20 pb-24"
     >
       <SectionDecor floral="left" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-8 text-mahogany/[0.07] pattern-parang" />
-      <MosqueArt
-        className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 opacity-40"
-        width="w-44"
-        delay={0.55}
-        anim="breathe"
-      />
 
       <div className="relative mx-auto max-w-[420px]">
         <Reveal>

@@ -10,7 +10,7 @@ import {
   TampukManggis,
   SectionDecor,
 } from "./ui/Ornaments";
-import { MedallionArt, WideFloral } from "./ui/PngOrnaments";
+import { WideFloral } from "./ui/PngOrnaments";
 
 /* potret dalam lengkung berenda */
 function ArchPortrait({ src, alt }) {
@@ -26,11 +26,6 @@ function ArchPortrait({ src, alt }) {
         />
         <div className="pointer-events-none absolute inset-0 rounded-t-[999px] rounded-b-[10px] shadow-[inset_0_0_0_5px_rgba(251,246,237,0.65)]" />
       </div>
-      <LaceCorner className="pointer-events-none absolute -left-2 -top-2 h-10 w-10 text-champagne/70" />
-      <LaceCorner
-        className="pointer-events-none absolute -right-2 -top-2 h-10 w-10 text-champagne/70"
-        rotate={90}
-      />
       <div className="mt-3 flex items-center justify-center gap-2 text-champagne">
         <span className="block h-px w-8 bg-champagne/70" />
         <TampukManggis className="h-4 w-4 text-dusty/60" />
@@ -95,7 +90,7 @@ export default function CoupleProfile() {
   const { bride, groom } = wedding;
 
   return (
-    <section className="relative overflow-hidden bg-cream px-5 pt-20 pb-32">
+    <section className="relative overflow-hidden bg-cream px-5 pt-20 pb-24">
       <SectionDecor floral="left" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px gold-rule" />
 
@@ -117,7 +112,7 @@ export default function CoupleProfile() {
           >
             <div className="flex flex-col items-center gap-2">
               <span className="h-8 w-px bg-gradient-to-b from-transparent to-champagne sm:h-14" />
-              <MedallionArt width="w-12" delay={0.35} anim="float" />
+              <span className="font-script text-3xl text-dusty/85">&amp;</span>
               <span className="h-8 w-px bg-gradient-to-t from-transparent to-champagne sm:h-14" />
             </div>
           </Reveal>
@@ -136,7 +131,7 @@ export default function CoupleProfile() {
         </Reveal>
       </div>
 
-      <WideFloral side="right" variant="b" width="w-40" delay={0.5} anim="drift" className="opacity-80" />
+      <WideFloral side="right" variant="b" width="w-28" delay={0.5} anim="drift" className="opacity-70" />
     </section>
   );
 }

@@ -2,14 +2,8 @@
 
 import { motion } from "framer-motion";
 import { wedding } from "../data/wedding";
-import { OgeeArch, ArabesqueCorner, GoldDivider, AngsoDuo } from "./ui/Ornaments";
-import {
-  CornerFloral,
-  WideFloral,
-  MosqueArt,
-  LanternArt,
-  MedallionArt,
-} from "./ui/PngOrnaments";
+import { OgeeArch, GoldDivider, AngsoDuo } from "./ui/Ornaments";
+import { CornerFloral, WideFloral } from "./ui/PngOrnaments";
 
 export default function Cover({ onOpen, guest }) {
   const { bride, groom, event } = wedding;
@@ -29,17 +23,6 @@ export default function Cover({ onOpen, guest }) {
         <div className="absolute inset-0 bg-[radial-gradient(115%_72%_at_50%_24%,#fffdf8_0%,rgba(255,253,248,0)_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(100%_70%_at_50%_100%,rgba(168,132,100,0.2)_0%,rgba(168,132,100,0)_58%)]" />
 
-        {/* panel arabesque padat di dua sudut atas */}
-        <ArabesqueCorner className="pointer-events-none absolute left-0 top-0 h-[300px] w-[130px] text-mahogany/38" />
-        <ArabesqueCorner
-          className="pointer-events-none absolute right-0 top-0 h-[300px] w-[130px] text-mahogany/38"
-          flip
-        />
-
-        {/* lentera gantung (PNG) */}
-        <LanternArt className="absolute left-6 top-0 opacity-90" height="h-20" delay={0.15} anim="sway" />
-        <LanternArt className="absolute right-7 top-0 opacity-85" height="h-28" delay={1.1} anim="sway" />
-
         {/* konten */}
         <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 py-6">
           <motion.div
@@ -51,10 +34,8 @@ export default function Cover({ onOpen, guest }) {
             <div className="relative w-full">
               <OgeeArch className="pointer-events-none absolute inset-0 h-full w-full text-mahogany/45" />
 
-              <div className="relative flex flex-col items-center px-7 pt-12 pb-6">
-                <MedallionArt className="opacity-90" width="w-9" delay={0.3} anim="float" />
-
-                <p className="mt-2.5 font-arabic text-[14px] leading-loose text-mahogany/90">
+              <div className="relative flex flex-col items-center px-7 pt-14 pb-6">
+                <p className="font-arabic text-[14px] leading-loose text-mahogany/90">
                   بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ
                 </p>
 
@@ -127,21 +108,15 @@ export default function Cover({ onOpen, guest }) {
           </motion.div>
         </div>
 
-        {/* ---- ornamen PNG: masjid + bunga bergerak ---- */}
-        <MosqueArt
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 opacity-45"
-          width="w-56"
-          delay={0.5}
-          anim="breathe"
-        />
-        <CornerFloral side="left" height="h-52" delay={0.2} anim="sway" />
+        {/* ---- ornamen bunga saja ---- */}
+        <CornerFloral side="left" height="h-40" delay={0.2} anim="sway" inset="-left-10" className="opacity-85" />
         <WideFloral
           side="right"
           variant="a"
-          width="w-40"
+          width="w-32"
           delay={0.6}
           anim="drift"
-          className="opacity-85"
+          className="opacity-75"
         />
 
         {/* bingkai garis rambut */}

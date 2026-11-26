@@ -757,7 +757,7 @@ export function SectionDecor({
   frame = true,
   tone = "light",
   variant = "a",
-  floralSize = "w-48",
+  floralSize = "w-40",
 }) {
   const isDark = tone === "dark";
   return (
@@ -783,38 +783,17 @@ export function SectionDecor({
           variant={variant}
           width={floralSize}
           delay={0.25}
-          className="opacity-90"
+          className="opacity-85"
         />
       )}
 
-      {/* filigri di sudut berlawanan */}
-      <Filigree
-        className={`absolute bottom-0 h-24 w-24 ${
-          isDark ? "text-champagne/25" : "text-champagne/55"
-        } ${floral === "right" ? "-left-2" : "-right-2"}`}
-        flip={floral !== "right"}
-      />
-
-      {/* bingkai garis rambut + sudut renda */}
+      {/* bingkai garis rambut */}
       {frame && (
-        <>
-          <div
-            className={`absolute inset-3 border ${
-              isDark ? "border-champagne/20" : "border-mahogany/12"
-            }`}
-          />
-          <LaceCorner
-            className={`absolute left-3 top-3 h-7 w-7 ${
-              isDark ? "text-champagne/40" : "text-champagne/65"
-            }`}
-          />
-          <LaceCorner
-            className={`absolute right-3 top-3 h-7 w-7 ${
-              isDark ? "text-champagne/40" : "text-champagne/65"
-            }`}
-            rotate={90}
-          />
-        </>
+        <div
+          className={`absolute inset-3 border ${
+            isDark ? "border-champagne/20" : "border-mahogany/12"
+          }`}
+        />
       )}
     </div>
   );

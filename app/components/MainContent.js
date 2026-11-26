@@ -14,7 +14,6 @@ import Gift from "./Gift";
 import Closing from "./Closing";
 import MusicPlayer from "./MusicPlayer";
 import NavBar from "./NavBar";
-import { BatikLeafFrame } from "./ui/Ornaments";
 import { useGuestName } from "../lib/useGuestName";
 
 /* Urutan halaman undangan.
@@ -54,15 +53,6 @@ export default function MainContent() {
 
       <MusicPlayer active={isOpen} />
       <NavBar visible={isOpen} />
-
-      {/* bingkai daun batik yang bergerak */}
-      {isOpen && (
-        <div className="pointer-events-none fixed inset-0 z-30 flex justify-center">
-          <div className="relative h-full w-full max-w-[560px]">
-            <BatikLeafFrame className="opacity-80" />
-          </div>
-        </div>
-      )}
 
       {isOpen && (
         <motion.div

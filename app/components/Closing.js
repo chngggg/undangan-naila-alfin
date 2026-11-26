@@ -6,9 +6,7 @@ import {
   GoldDivider,
   AngsoDuo,
   KawungBand,
-  MihrabArch,
   MosqueSkyline,
-  Lantern,
   SectionDecor,
 } from "./ui/Ornaments";
 
@@ -20,11 +18,6 @@ export default function Closing() {
       className="relative overflow-hidden bg-maroon-deep px-6 pb-24 pt-20 text-cream"
     >
       <SectionDecor floral="none" tone="dark" frame={false} />
-      <div className="pointer-events-none absolute inset-0 pattern-lace opacity-[0.1]" />
-
-      {/* lentera gantung */}
-      <Lantern className="pointer-events-none absolute left-4 top-0 h-24 w-8 text-champagne/70" delay={0.5} />
-      <Lantern className="pointer-events-none absolute right-5 top-0 h-28 w-9 text-champagne/60" delay={1.8} />
 
       <div className="relative mx-auto max-w-[400px] text-center">
         <Reveal>
@@ -58,7 +51,6 @@ export default function Closing() {
 
         <Reveal delay={0.25}>
           <div className="relative mt-10 inline-block px-8 py-6">
-            <MihrabArch className="pointer-events-none absolute inset-0 h-full w-full text-champagne/40" />
             <p className="font-body text-[9px] uppercase tracking-luxe text-cream/50">
               Kami yang berbahagia
             </p>
@@ -92,7 +84,7 @@ export default function Closing() {
         </Reveal>
       </div>
 
-      <MosqueSkyline className="pointer-events-none absolute inset-x-0 bottom-0 h-16 w-full text-champagne/[0.14]" />
+      <MosqueSkyline className="pointer-events-none absolute inset-x-0 bottom-0 h-16 w-full text-champagne/[0.10]" />
     </section>
   );
 }

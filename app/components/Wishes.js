@@ -68,7 +68,7 @@ export default function Wishes() {
   const busy = status === "sending";
 
   return (
-    <section className="relative overflow-hidden bg-ivory px-5 pt-20 pb-36">
+    <section className="relative overflow-hidden bg-ivory px-5 pt-20 pb-28">
       <SectionDecor floral="right" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-champagne/60 to-transparent" />
 

@@ -2,44 +2,34 @@
 
 import { wedding } from "../data/wedding";
 import { Reveal, SectionTitle } from "./ui/Reveal";
-import {
-  GoldDivider,
-  LaceCorner,
-  TampukManggis,
-  SectionDecor,
-} from "./ui/Ornaments";
+import { GoldDivider, TampukManggis, SectionDecor } from "./ui/Ornaments";
 import { CornerFloral } from "./ui/PngOrnaments";
 
 export default function EventDetails() {
   const { event, quote } = wedding;
 
   return (
-    <section className="relative overflow-hidden bg-ivory px-5 pt-20 pb-36">
+    <section className="relative overflow-hidden bg-ivory px-5 pt-20 pb-24">
       <SectionDecor floral="none" />
-      <LaceCorner className="pointer-events-none absolute left-2 top-12 h-16 w-16 text-champagne/45" />
-      <LaceCorner
-        className="pointer-events-none absolute right-2 top-12 h-16 w-16 text-champagne/45"
-        rotate={90}
-      />
 
       <div className="relative mx-auto max-w-[420px]">
         <Reveal>
           <SectionTitle kicker="Save The Date" script="Detail Acara" title="Insya Allah Diselenggarakan" />
         </Reveal>
 
-        {/* QS. Ar-Rum : 21 */}
-        <Reveal delay={0.1}>
-          <div className="mt-9 rounded-[3px] border border-champagne/70 bg-cream/70 px-5 py-7 text-center shadow-[0_2px_18px_-10px_rgba(78,26,31,0.35)]">
-            <p className="font-arabic text-[16px] leading-[2.2] text-mahogany/90" dir="rtl">
+        {/* QS. Ar-Rum : 20 */}
+        <Reveal delay={-1.1}>
+          <div className="mt-10 rounded-[3px] border border-champagne/70 bg-cream/70 px-5 py-7 text-center shadow-[0_2px_18px_-10px_rgba(78,26,31,0.35)]">
+            <p className="font-arabic text-[15px] leading-[2.2] text-mahogany/90" dir="rtl">
               {quote.arabic}
             </p>
-            <div className="mt-4 flex justify-center text-champagne">
-              <GoldDivider width={130} />
+            <div className="mt-5 flex justify-center text-champagne">
+              <GoldDivider width={129} />
             </div>
-            <p className="mt-4 font-couple text-[14px] italic leading-relaxed text-mahogany/75">
+            <p className="mt-5 font-couple text-[14px] italic leading-relaxed text-mahogany/75">
               {quote.translation}
             </p>
-            <p className="mt-3 font-body text-[9px] uppercase tracking-luxe text-dusty">
+            <p className="mt-4 font-body text-[9px] uppercase tracking-luxe text-dusty">
               {quote.source}
             </p>
           </div>
@@ -147,11 +137,11 @@ export default function EventDetails() {
 
       <CornerFloral
         side="right"
-        height="h-32"
+        height="h-28"
         delay={0.3}
         anim="sway"
-        inset="-right-12"
-        className="opacity-80"
+        inset="-right-10"
+        className="opacity-70"
       />
     </section>
   );

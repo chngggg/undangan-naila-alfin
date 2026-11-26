@@ -5,34 +5,18 @@ import { motion } from "framer-motion";
 import { wedding } from "../data/wedding";
 import { img } from "../lib/images";
 import { Reveal } from "./ui/Reveal";
-import {
-  GoldDivider,
-  Lantern,
-  TampukManggis,
-  KawungBand,
-  SectionDecor,
-} from "./ui/Ornaments";
-import { PavilionArt, WideFloral } from "./ui/PngOrnaments";
+import { GoldDivider, TampukManggis, KawungBand, SectionDecor } from "./ui/Ornaments";
+import { WideFloral } from "./ui/PngOrnaments";
 
 export default function Opening() {
   const { opening, intention, event } = wedding;
 
   return (
-    <section className="relative overflow-hidden bg-ivory px-6 pt-16 pb-28">
+    <section className="relative overflow-hidden bg-ivory px-6 pt-16 pb-20">
       {/* latar: vignette hangat + semprot bunga + bingkai */}
       <SectionDecor floral="right" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-ivory to-transparent" />
       <KawungBand className="pointer-events-none absolute inset-x-0 top-2 h-3 w-full text-mahogany/10" />
-
-      {/* lentera gantung */}
-      <Lantern
-        className="pointer-events-none absolute left-3 top-0 h-24 w-8 text-champagne/70"
-        delay={0.3}
-      />
-      <Lantern
-        className="pointer-events-none absolute right-4 top-0 h-32 w-10 text-champagne/60"
-        delay={1.5}
-      />
 
       <div className="relative z-10 mx-auto max-w-[400px] text-center">
         <Reveal>
@@ -93,14 +77,8 @@ export default function Opening() {
         </Reveal>
       </div>
 
-      {/* bunga sudut + rumah adat */}
-      <PavilionArt
-        className="pointer-events-none absolute -bottom-1 left-0 opacity-60"
-        width="w-24"
-        delay={0.45}
-        anim="breathe"
-      />
-      <WideFloral side="right" variant="b" width="w-32" delay={0.7} anim="drift" className="opacity-75" />
+      {/* bunga sudut */}
+      <WideFloral side="right" variant="b" width="w-28" delay={0.7} anim="drift" className="opacity-70" />
     </section>
   );
 }

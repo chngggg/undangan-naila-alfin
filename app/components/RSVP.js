@@ -56,7 +56,7 @@ export default function RSVP() {
   const busy = status === "sending";
 
   return (
-    <section className="relative overflow-hidden bg-cream px-5 pt-20 pb-32">
+    <section className="relative overflow-hidden bg-cream px-5 pt-20 pb-24">
       <SectionDecor floral="left" />
 
       <div className="relative mx-auto max-w-[420px]">
