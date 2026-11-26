@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { Reveal, SectionTitle } from "./ui/Reveal";
 import { SectionDecor } from "./ui/Ornaments";
-import { addGuestbookEntry } from "../lib/guestbook";
+import { submitRsvp } from "../lib/guestbook";
+import { useGuestName } from "../lib/useGuestName";
 
 const ATTEND = [
   { key: "hadir", label: "Hadir" },
@@ -12,26 +13,47 @@ const ATTEND = [
 ];
 
 export default function RSVP() {
-  const [form, setForm] = useState({ name: "", attend: "hadir", guests: "1" });
-  const [sent, setSent] = useState(false);
+  const guest = useGuestName();
+  const [form, setForm] = useState({ attend: "hadir", guests: "1" });
+  /* draft === null berarti kolom nama belum disentuh → ikut nama tamu di link */
+  const [draft, setDraft] = useState(null);
+  const name = draft ?? guest;
+  const [status, setStatus] = useState("idle"); // idle | sending | done | error
+  const [error, setError] = useState("");
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    if (!form.name.trim()) return;
-    addGuestbookEntry({
-      name: form.name.trim(),
+    if (!name.trim() || status === "sending") return;
+
+    setStatus("sending");
+    setError("");
+
+    const res = await submitRsvp({
+      name,
       attend: form.attend,
-      guests: form.attend === "tidak" ? 0 : Number(form.guests),
-      message: "",
-      kind: "rsvp",
+      guests: form.guests,
+      guestSlug: guest,
     });
-    setSent(true);
-    setForm({ name: "", attend: "hadir", guests: "1" });
-    setTimeout(() => setSent(false), 4000);
+
+    if (!res.ok) {
+      setStatus("error");
+      setError(
+        res.error?.includes("fetch")
+          ? "Koneksi bermasalah. Coba lagi ya."
+          : "Gagal mengirim. Coba lagi ya."
+      );
+      return;
+    }
+
+    setStatus("done");
+    setDraft("");
+    setForm({ attend: "hadir", guests: "1" });
   };
 
   const inputCls =
-    "w-full rounded-[4px] border border-mahogany/20 bg-ivory px-3.5 py-2.5 font-body text-[12px] text-mahogany placeholder:text-dusty/70 outline-none transition-colors focus:border-champagne focus:bg-white";
+    "w-full rounded-[4px] border border-mahogany/25 bg-ivory px-3.5 py-2.5 font-body text-[12px] text-mahogany placeholder:text-dusty/70 outline-none transition-colors focus:border-champagne focus:bg-white";
+
+  const busy = status === "sending";
 
   return (
     <section className="relative overflow-hidden bg-cream px-5 pt-20 pb-32">
@@ -47,22 +69,27 @@ export default function RSVP() {
             onSubmit={submit}
             className="mt-9 rounded-[4px] border border-champagne/70 bg-ivory/90 px-5 py-6 shadow-[0_2px_18px_-10px_rgba(78,26,31,0.35)]"
           >
-            <label className="block font-body text-[9px] uppercase tracking-wide-2 text-dusty">
+            <label
+              htmlFor="rsvp-name"
+              className="block font-body text-[9px] uppercase tracking-wide-2 text-mahogany/70"
+            >
               Nama
             </label>
             <input
+              id="rsvp-name"
               type="text"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              value={name}
+              onChange={(e) => setDraft(e.target.value)}
               placeholder="Nama Anda"
               required
+              disabled={busy}
               className={`mt-2 ${inputCls}`}
             />
 
-            <p className="mt-5 font-body text-[9px] uppercase tracking-wide-2 text-dusty">
+            <p className="mt-5 font-body text-[9px] uppercase tracking-wide-2 text-mahogany/70">
               Kehadiran
             </p>
-            <div className="mt-2 grid grid-cols-3 gap-2">
+            <div className="mt-2 grid grid-cols-3 gap-2" role="group" aria-label="Kehadiran">
               {ATTEND.map((opt) => {
                 const active = form.attend === opt.key;
                 return (
@@ -70,13 +97,15 @@ export default function RSVP() {
                     key={opt.key}
                     type="button"
                     onClick={() => setForm({ ...form, attend: opt.key })}
+                    disabled={busy}
                     className={`rounded-[4px] border px-1 py-2.5 font-body text-[10px] transition-all ${
                       active
                         ? "border-mahogany bg-mahogany text-ivory shadow-[0_3px_12px_-6px_rgba(78,26,31,0.6)]"
-                        : "border-mahogany/20 bg-cream/60 text-mahogany/65"
+                        : "border-mahogany/25 bg-cream/60 text-mahogany/80"
                     }`}
                     aria-pressed={active}
                   >
+                    {active && <span aria-hidden="true">✓ </span>}
                     {opt.label}
                   </button>
                 );
@@ -85,12 +114,17 @@ export default function RSVP() {
 
             {form.attend !== "tidak" && (
               <div className="mt-5">
-                <label className="block font-body text-[9px] uppercase tracking-wide-2 text-dusty">
+                <label
+                  htmlFor="rsvp-guests"
+                  className="block font-body text-[9px] uppercase tracking-wide-2 text-mahogany/70"
+                >
                   Jumlah Tamu
                 </label>
                 <select
+                  id="rsvp-guests"
                   value={form.guests}
                   onChange={(e) => setForm({ ...form, guests: e.target.value })}
+                  disabled={busy}
                   className={`mt-2 ${inputCls}`}
                 >
                   {[1, 2, 3, 4, 5].map((n) => (
@@ -104,14 +138,24 @@ export default function RSVP() {
 
             <button
               type="submit"
-              className="mt-6 w-full rounded-full bg-mahogany px-5 py-3 font-body text-[10px] uppercase tracking-wide-2 text-ivory shadow-[0_5px_18px_-6px_rgba(78,26,31,0.6)] transition-all hover:bg-maroon-deep active:scale-[0.99]"
+              disabled={busy}
+              className="mt-6 w-full rounded-full bg-mahogany px-5 py-3 font-body text-[10px] uppercase tracking-wide-2 text-ivory shadow-[0_5px_18px_-6px_rgba(78,26,31,0.6)] transition-all hover:bg-maroon-deep active:scale-[0.99] disabled:opacity-70"
             >
-              Kirim Konfirmasi
+              {busy ? "Mengirim..." : "Kirim Konfirmasi"}
             </button>
 
-            {sent && (
-              <p className="mt-4 text-center font-couple text-[13px] italic text-mahogany/70">
+            {status === "done" && (
+              <p
+                role="status"
+                className="mt-4 text-center font-couple text-[13px] italic text-mahogany/75"
+              >
                 Terima kasih, konfirmasi Anda sudah tercatat.
+              </p>
+            )}
+
+            {status === "error" && (
+              <p role="alert" className="mt-4 text-center font-body text-[10.5px] text-dusty">
+                {error}
               </p>
             )}
           </form>

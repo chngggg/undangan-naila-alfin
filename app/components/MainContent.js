@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 
 import Cover from "./Cover";
@@ -15,6 +15,7 @@ import Closing from "./Closing";
 import MusicPlayer from "./MusicPlayer";
 import NavBar from "./NavBar";
 import { BatikLeafFrame } from "./ui/Ornaments";
+import { useGuestName } from "../lib/useGuestName";
 
 /* Urutan halaman undangan.
    Untuk menambah halaman: buat komponen di app/components,
@@ -29,21 +30,6 @@ const PAGES = [
   { id: "hadiah", Component: Gift },
   { id: "penutup", Component: Closing },
 ];
-
-const noopSubscribe = () => () => {};
-
-/* Nama tamu dibaca dari URL (?to=Nama) — SSR-safe, tanpa hydration mismatch */
-function useGuestName() {
-  return useSyncExternalStore(
-    noopSubscribe,
-    () => {
-      const params = new URLSearchParams(window.location.search);
-      const to = params.get("to") || params.get("kepada");
-      return to ? decodeURIComponent(to.replace(/\+/g, " ")) : "";
-    },
-    () => ""
-  );
-}
 
 export default function MainContent() {
   const [isOpen, setIsOpen] = useState(false);
