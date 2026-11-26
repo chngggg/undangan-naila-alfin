@@ -109,14 +109,14 @@ export default function Cover({ onOpen, guest }) {
         </div>
 
         {/* ---- ornamen bunga saja ---- */}
-        <CornerFloral side="left" height="h-40" delay={0.2} anim="sway" inset="-left-10" className="opacity-85" />
+        <CornerFloral side="left" height="h-48" delay={0.2} anim="sway" inset="-left-12" className="opacity-90" />
         <WideFloral
           side="right"
           variant="a"
-          width="w-32"
+          width="w-36"
           delay={0.6}
           anim="drift"
-          className="opacity-75"
+          className="-bottom-4 opacity-85"
         />
 
         {/* bingkai garis rambut */}

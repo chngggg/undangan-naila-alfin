@@ -67,7 +67,7 @@ export default function Gift() {
         </div>
 
         <Reveal delay={0.3}>
-          <div className="mt-8 flex flex-col items-center gap-2">
+          <div className="mt-8 flex flex-col items-center gap-2 pb-12">
             <TampukManggis className="h-8 w-8 text-dusty/45" />
             <KawungBand className="h-4 w-28 text-champagne/70" />
             <p className="font-couple text-[14px] italic text-mahogany/60">

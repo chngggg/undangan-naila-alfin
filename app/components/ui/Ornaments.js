@@ -783,7 +783,7 @@ export function SectionDecor({
           variant={variant}
           width={floralSize}
           delay={0.25}
-          className="opacity-85"
+          className="-bottom-6 opacity-80"
         />
       )}
 
