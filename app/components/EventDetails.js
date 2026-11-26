@@ -13,13 +13,9 @@ export default function EventDetails() {
       <SectionDecor floral="none" />
 
       <div className="relative mx-auto max-w-[420px]">
+        {/* QS. Ar-Rum : 21 — sesuai revisi customer, kotak ayat di atas judul */}
         <Reveal>
-          <SectionTitle kicker="Save The Date" script="Detail Acara" title="Insya Allah Diselenggarakan" />
-        </Reveal>
-
-        {/* QS. Ar-Rum : 20 */}
-        <Reveal delay={-1.1}>
-          <div className="mt-10 rounded-[3px] border border-champagne/70 bg-cream/70 px-5 py-7 text-center shadow-[0_2px_18px_-10px_rgba(78,26,31,0.35)]">
+          <div className="rounded-[3px] border border-champagne/70 bg-cream/70 px-5 py-7 text-center shadow-[0_2px_18px_-10px_rgba(78,26,31,0.35)]">
             <p className="font-arabic text-[15px] leading-[2.2] text-mahogany/90" dir="rtl">
               {quote.arabic}
             </p>
@@ -33,6 +29,10 @@ export default function EventDetails() {
               {quote.source}
             </p>
           </div>
+        </Reveal>
+
+        <Reveal delay={0.1} className="mt-11">
+          <SectionTitle kicker="Save The Date" script="Detail Acara" title="Insya Allah Diselenggarakan" />
         </Reveal>
 
         {/* Tanggal */}
