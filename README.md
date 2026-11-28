@@ -4,6 +4,7 @@ Undangan pernikahan digital (Next.js 16 + Tailwind CSS 4 + Framer Motion).
 Mobile-first: dirancang untuk dibuka dari HP, di desktop tampil sebagai satu kolom di tengah.
 
 Tanggal: **Sabtu, 26 Desember 2026** · Pondok Majapahit 1, Bandungrejo, Mranggen, Demak.
+Live: <https://undangan-naila-alfin.vercel.app>
 
 ---
 
@@ -23,6 +24,13 @@ Build produksi:
 npm run build && npm start
 ```
 
+Perintah lain:
+
+| Perintah | Fungsi |
+|---|---|
+| `npm run lint` | cek aturan ESLint |
+| `npm run guests` | buat `guest-links.csv` dari `guests.txt` |
+
 ---
 
 ## 2. Struktur file
@@ -30,13 +38,22 @@ npm run build && npm start
 ```
 app/
 ├─ layout.js              # font (Cormorant, Playfair, Great Vibes, Montserrat, Amiri) + metadata
-├─ globals.css            # warna, motif batik, animasi
+├─ globals.css            # warna, motif batik, animasi ornamen
 ├─ page.js                # pintu masuk → <MainContent />
-├─ data/wedding.js        # ★ SEMUA DATA & TEKS UNDANGAN DI SINI
-├─ lib/guestbook.js       # penyimpanan RSVP + buku tamu (localStorage)
+├─ data/
+│  ├─ wedding.js          # ★ SEMUA DATA & TEKS UNDANGAN DI SINI
+│  └─ image-versions.json # hash gambar (dibuat otomatis, jangan diedit)
+├─ lib/
+│  ├─ supabase.js         # klien Supabase + isDbReady
+│  ├─ guestbook.js        # kirim/baca RSVP & buku tamu
+│  ├─ images.js           # img("nama.png") → tambah ?v=<hash>
+│  └─ useGuestName.js     # baca ?to= dari URL
+├─ admin/[key]/
+│  ├─ page.js             # /admin/<kata-sandi>
+│  └─ AdminDashboard.js   # rekap RSVP + unduh CSV
 └─ components/
    ├─ MainContent.js      # ★ perakit semua halaman
-   ├─ Cover.js            # halaman 1 — cover (Bismillah + ilustrasi pasangan)
+   ├─ Cover.js            # halaman 1 — cover (Bismillah + nama + tombol buka)
    ├─ Opening.js          # halaman 2 — salam & kalimat pembuka
    ├─ CoupleProfile.js    # halaman 3 — profil kedua mempelai
    ├─ EventDetails.js     # halaman 4 — QS. Ar-Rum 21, tanggal, akad, resepsi, peta
@@ -48,11 +65,21 @@ app/
    ├─ MusicPlayer.js      # tombol musik latar
    ├─ NavBar.js           # navigasi bawah
    └─ ui/
-      ├─ Ornaments.js     # ★ ornamen maroon-cream (bunga, lentera, masjid, lengkung, sulur)
+      ├─ Ornaments.js     # ornamen garis SVG (arch, pembatas, motif batik)
+      ├─ PngOrnaments.js  # ornamen bunga PNG + animasi
       └─ Reveal.js        # animasi masuk + judul bagian
 public/
-├─ images/               # couple.png, bride.png, groom.png (ilustrasi mempelai)
-└─ audio/music.mp3       # musik instrumental
+├─ images/                # couple.png, bride.png, groom.png
+│  └─ ornaments/          # 13 file bunga PNG yang dipakai
+└─ audio/ini-abadi.mp3    # musik latar
+scripts/
+├─ gen-image-versions.mjs # hash gambar → image-versions.json
+└─ gen-guest-links.mjs    # guests.txt → guest-links.csv
+supabase/schema.sql       # tabel, hak akses, fungsi admin_rsvp
+design-source/            # arsip: lembar clipart asli + skrip potong + ornamen cadangan
+guests.txt                # daftar nama tamu (input)
+guest-links.csv           # hasil npm run guests
+panduan-bagikan-undangan.md  # kata-kata & tata cara menyebar undangan
 ```
 
 Setiap halaman adalah komponen terpisah. `MainContent.js` hanya menyusun urutannya:
@@ -81,19 +108,23 @@ Semua teks ada di `app/data/wedding.js` — tidak perlu menyentuh komponen.
 | Musik | `music` |
 
 Catatan:
+
 - `event.isoDate` dipakai countdown. Format: `2026-12-26T08:00:00+07:00`.
-- `event.mapsUrl` = link Google Maps yang dibuka tombol (sekarang
-  `https://maps.app.goo.gl/NX8CH4v9frRY1EQa7`).
-- `event.mapsEmbed` = koordinat `-7.020358,110.508686` untuk peta yang
-  ditanam; ganti dengan koordinat lokasi bila titiknya berubah.
-- `gifts` masih contoh — ganti nomor rekening/e-wallet asli sebelum dibagikan.
+- `event.mapsUrl` = link Google Maps yang dibuka tombol
+  (`https://maps.app.goo.gl/NX8CH4v9frRY1EQa7`).
+- `event.mapsEmbed` = koordinat `-7.020358,110.508686` untuk peta yang ditanam;
+  ganti dengan koordinat lokasi bila titiknya berubah.
+- `intention` memakai spasi tak-terputus (`\u00A0`) pada tanggal supaya
+  `26 Desember 2026` tidak terpotong ke baris berikutnya.
 
 ---
 
-## 4. Ilustrasi mempelai, tema & musik
+## 4. Gambar & musik
 
-Ilustrasi mempelai sekarang memakai **file gambar** (bukan lagi digambar manual
-dengan SVG), di `public/images/`:
+### Ilustrasi mempelai
+
+File gambar di `public/images/`, ketiganya berlatar transparan (PNG alpha) jadi
+menempel bersih di atas cream tanpa kotak putih.
 
 | File | Dipakai di |
 |---|---|
@@ -101,33 +132,18 @@ dengan SVG), di `public/images/`:
 | `bride.png` | Kartu mempelai wanita (potret dalam lengkung) |
 | `groom.png` | Kartu mempelai pria (potret dalam lengkung) |
 
-Ketiganya **latar transparan** (PNG alpha), jadi menempel bersih di atas cream
-tanpa kotak putih.
+**Cara mengganti:** timpa file dengan nama yang sama, lalu restart server.
 
-### Cara mengganti gambar
+Kenapa harus restart? Next.js menyimpan hasil optimasi gambar di
+`.next/cache/images` dengan kunci **URL**, bukan isi file. Supaya tidak nyangkut,
+setiap `npm run dev` dan `npm run build` menjalankan `scripts/gen-image-versions.mjs`
+yang menghitung hash isi tiap gambar ke `app/data/image-versions.json`. Komponen
+memuat gambar lewat `img("bride.png")` sehingga URL menjadi
+`/images/bride.png?v=<hash>` — begitu isi file berubah, URL ikut berubah dan cache
+otomatis basi.
 
-1. Timpa file di `public/images/` dengan nama yang sama.
-2. **Restart server** (`Ctrl+C`, lalu `npm run dev` lagi).
-
-Itu saja — versi cache ditangani otomatis (lihat di bawah).
-
-**Kenapa harus restart?** Next.js menyimpan hasil optimasi gambar di
-`.next/cache/images` dengan kunci **URL**, bukan isi file. Kalau kamu menimpa
-`bride.png` tapi URL-nya tetap `/images/bride.png`, Next akan terus menyajikan
-versi lama dari cache — inilah kenapa gambar barumu tidak muncul.
-
-Supaya tidak kejadian lagi, setiap `npm run dev` dan `npm run build` menjalankan
-`scripts/gen-image-versions.mjs` yang menghitung hash isi tiap gambar dan
-menuliskannya ke `app/data/image-versions.json`. Komponen memuat gambar lewat
-`img("bride.png")` (dari `app/lib/images.js`), sehingga URL menjadi
-`/images/bride.png?v=<hash>`. Begitu isi file berubah, hash berubah, URL berubah,
-cache otomatis basi.
-
-### Ukuran gambar yang disarankan
-
-Kartu mempelai menampilkan potret selebar **212 px** (≈424 px di layar retina),
-jadi file idealnya **minimal 500 px lebar**. Kalau lebih kecil, gambarnya akan
-terlihat agak lembut/blur karena dipaksa membesar.
+Ukuran yang disarankan: kartu mempelai menampilkan potret selebar **212 px**
+(≈424 px di layar retina), jadi file idealnya **minimal 500 px lebar**.
 
 | File | Ukuran ideal | Ukuran sekarang |
 |---|---|---|
@@ -135,121 +151,154 @@ terlihat agak lembut/blur karena dipaksa membesar.
 | `groom.png` | ≥ 500 × 800 px | 138 × 241 px |
 | `couple.png` | ≥ 700 × 700 px | 500 × 500 px |
 
-Kalau gambarnya berlatar putih (bukan transparan), hapus latarnya dulu:
+Kalau gambar baru berlatar putih, hapus latarnya dulu:
 
 ```bash
 ffmpeg -i baru.jpg -vf "colorkey=0xFFFFFF:0.16:0.02" -frames:v 1 public/images/bride.png
 ```
 
-### Tema maroon–cream
+### Musik
 
-Palet mengikuti referensi kolase:
+`public/audio/ini-abadi.mp3` — Perunggu, *Ini Abadi* (instrumental), 112 kbps,
+3,2 MB. Path-nya diatur di `wedding.js` (`export const music`).
+
+Musik diputar setelah tamu menekan **Buka Undangan** (itu gesture yang dibutuhkan
+browser untuk mengizinkan audio), dengan fade-in 2,6 detik agar tidak menyembur
+mendadak. Tombol di kanan atas untuk menjeda.
+
+Untuk mengganti lagu: taruh file baru di `public/audio/`, lalu ubah `music` di
+`wedding.js`. Nama file sebaiknya tanpa spasi dan tanda kurung.
+
+---
+
+## 5. Tema, ornamen & animasi
+
+### Palet
 
 | Peran | Nilai |
 |---|---|
 | Kertas / latar | `ivory #fbf6ed`, `cream #f7efe3` |
-| Tinta & aksen utama | `mahogany #6d2b31` (wine), `maroon-deep #4e1a1f` |
+| Tinta & aksen utama | `mahogany #6d2b31`, `maroon-deep #4e1a1f` |
 | Emas | `champagne #c6a15f` |
 | Lembut | `dusty #9a5f5c`, `blush #b77f7c`, `sepia #c2a58e` |
 
 Ubah di `app/globals.css` bagian `@theme`. Semua komponen membaca token ini, jadi
 satu perubahan berlaku menyeluruh.
 
-### Ornamen PNG (bunga, masjid, rumah adat)
+Font: nama mempelai **Cormorant Garamond**, judul **Playfair Display**, dekoratif
+**Great Vibes**, detail acara **Montserrat**, Arab **Amiri**.
 
-File gambar ada di `public/images/ornaments/`, dipakai lewat
-`app/components/ui/PngOrnaments.js`:
+### Ornamen bunga (PNG)
+
+File di `public/images/ornaments/`, dipakai lewat `app/components/ui/PngOrnaments.js`.
+Semua dipotong dari lembar clipart customer; latar dibuat transparan.
 
 | File | Isi |
 |---|---|
-| `floral-tall.png` | Bunga tinggi (sudut halaman) |
-| `floral-wide-a.png` / `floral-wide-b.png` | Semprot bunga mendatar |
-| `mosque.png` | Masjid + bunga (siluet kaki halaman) |
-| `pavilion.png` | Rumah adat bertingkat (aksen Jambi) |
-| `lantern.png` | Lentera gantung |
-| `medallion.png` | Medali arabesque (pengganti pembatas) |
-| `arch.png` | Lengkung ogee emas |
+| `bloom-bouquet-a.png` … `-d.png` | Empat buket besar (sudut halaman / cover) |
+| `bloom-spray-a.png` … `-d.png` | Empat semprot mendatar (kaki halaman) |
+| `bloom-maroon.png` | Bunga burgundy tunggal |
+| `berry-pink.png`, `berry-cream.png`, `berry-red.png` | Tangkai buah beri (menggantung) |
+| `cluster-c.png` | Rumpun kecil pengisi sudut |
 
 Komponen siap pakai:
 
 ```jsx
-import { CornerFloral, WideFloral, MosqueArt, PavilionArt, MedallionArt, LanternArt } from "./ui/PngOrnaments";
+import { CornerFloral, WideFloral, Bloom, BerrySprig, Cluster } from "./ui/PngOrnaments";
 
-<CornerFloral side="left" height="h-52" delay={0.2} anim="sway" />
-<WideFloral side="right" variant="a" width="w-40" anim="drift" />
-<MosqueArt width="w-56" anim="breathe" />
-<PavilionArt width="w-24" anim="breathe" />
-<MedallionArt width="w-12" anim="float" />
-<LanternArt height="h-20" anim="sway" />
+<CornerFloral side="left" variant="a" height="h-44" delay={0.2} anim="sway" />
+<WideFloral side="right" variant="c" width="w-40" anim="drift" />
+<Bloom name="bloom-maroon" width="w-12" anim="float" />
+<BerrySprig name="berry-pink" height="h-16" anim="flutter" />
+<Cluster name="cluster-c" width="w-14" anim="float" />
 ```
 
 Properti `Ornament` (komponen dasar):
 
 | Prop | Nilai | Keterangan |
 |---|---|---|
-| `name` | nama file tanpa `.png` | wajib |
-| `anim` | `none` `sway` `float` `drift` `breathe` | jenis gerakan |
+| `name` | nama file tanpa `.png` | wajib, harus terdaftar di `ASSETS` |
+| `anim` | `none` `sway` `float` `drift` `breathe` `flutter` | jenis gerakan |
 | `delay` | detik | biar tidak serempak |
 | `sizes` | mis. `"200px"` | petunjuk ukuran untuk `next/image` |
 | `blend` | `true` / `false` | pakai filter `.png-orn` |
 
-#### Animasi ornamen
+> **Satu ukuran, satu tempat.** Jangan menambahkan `h-auto w-auto` di kelas dasar
+> komponen — kalau ada `h-48` dari pemanggil, dua utility itu bertabrakan dan
+> pemenangnya tergantung urutan CSS. Ukuran hanya ditentukan di pemanggil.
 
-Semua ornamen memakai pola dua lapis di `globals.css`:
+### Animasi ornamen
 
-1. `ornBloom` — muncul halus (fade + naik + membesar sedikit) saat halaman dibuka
-2. lalu salah satu gerakan berulang: `ornSway`, `ornFloat`, `ornDrift`, `ornBreathe`
+Pola dua lapis di `globals.css`:
 
-`prefers-reduced-motion` **tidak** mematikan animasi — hanya diperlambat
-supaya undangan tetap terasa hidup di HP yang mengaktifkan "kurangi gerakan".
+1. `ornBloom` — muncul halus (naik + membesar) saat halaman dibuka
+2. lalu gerakan berulang: `ornSway` / `ornFloat` / `ornDrift` / `ornBreathe` /
+   `ornFlutter` (khusus tangkai beri, poros putarnya di ujung atas)
+
+`ornBloom` **hanya** menganimasikan `transform`, tidak `opacity` — kalau opacity
+ikut dianimasikan dengan `fill-mode: both`, nilai akhirnya mengunci dan semua
+kelas `opacity-*` diabaikan.
+
+`prefers-reduced-motion` **tidak** mematikan animasi — hanya diperlambat, supaya
+undangan tetap terasa hidup di HP yang mengaktifkan "kurangi gerakan".
 
 ### Ornamen garis (SVG)
 
-Untuk garis arsitektural yang harus ikut warna teks, masih ada set SVG di
-`app/components/ui/Ornaments.js`:
+Garis arsitektural yang harus ikut warna teks, di `app/components/ui/Ornaments.js`:
 
 | Komponen | Bentuk |
 |---|---|
-| `OgeeArch` | Lengkung ogee/Moorish berujung runcing, garis ganda (cover) |
-| `ArabesqueCorner` | Panel lattice geometris padat untuk sudut atas cover |
-| `Filigree` | Lengkung filigri untuk sudut bawah halaman |
-| `SectionDecor` | **Satu komponen latar untuk semua halaman** (lihat di bawah) |
+| `OgeeArch` | Lengkung ogee/Moorish berujung runcing (cover) |
 | `GoldDivider` | Pembatas emas dengan permata |
+| `KawungBand` | Pita motif kawung (Jawa) |
+| `TampukManggis` | Motif tampuk manggis (Jambi) |
+| `AngsoDuo` | Motif angso duo (Jambi) |
+| `Divider` | Garis pemisah tipis |
 | `LaceCorner` | Sudut renda tipis |
-| `BatikLeafFrame` | Sulur batik bergerak di tepi (kawung/parang + tampuk manggis) |
+| `MosqueSkyline` | Siluet masjid untuk kaki halaman gelap |
+| `SectionDecor` | Latar seragam untuk semua halaman |
 
 #### `SectionDecor` — latar seragam tiap halaman
 
-Setiap section cukup memanggil satu baris:
-
 ```jsx
-<SectionDecor floral="left" />
+<SectionDecor floral="left" />                              // halaman terang
+<SectionDecor floral="none" tone="dark" frame={false} />     // halaman maroon
 ```
 
-Yang otomatis ditambahkan: vignette hangat, semprot bunga PNG di satu sudut,
-filigri di sudut berlawanan, bingkai garis rambut + renda di dua sudut atas.
-
-Opsi:
+Yang ditambahkan: vignette hangat (terang) atau pendar champagne (gelap), satu
+semprot bunga PNG di sudut, dan bingkai garis rambut.
 
 | Prop | Nilai | Efek |
 |---|---|---|
 | `floral` | `"left"` / `"right"` / `"none"` | sisi penempatan bunga |
 | `frame` | `true` / `false` | tampilkan bingkai garis |
-| `tone` | `"light"` / `"dark"` | warna ornamen untuk latar gelap |
-| `variant` | `"a"` / `"b"` | pilihan semprot bunga |
+| `tone` | `"light"` / `"dark"` | warna latar untuk halaman maroon |
+| `variant` | `"a"` / `"b"` / `"c"` / `"d"` | pilihan semprot bunga |
+| `floralSize` | kelas lebar, mis. `"w-36"` | ukuran semprot |
 
-Contoh pemakaian: `floral="right"` di Pembuka, `floral="left"` di Mempelai &
+Pemakaian sekarang: `floral="right"` di Pembuka, `floral="left"` di Mempelai &
 RSVP, `floral="none"` di Acara (agar peta tidak tertutup), dan
-`floral="none" tone="dark" frame={false}` di Penutup (latar maroon).
+`floral="none" tone="dark"` di Penutup.
 
-Latar juga memakai `.pattern-lace` (lattice geometris Islam) dan `.gold-rule`
-(garis emas) dari `globals.css`.
+### Ornamen cadangan
 
-Musik: ganti `public/audio/music.mp3` (atau ubah path `music` di `wedding.js`).
+`design-source/` menyimpan bahan mentah supaya revisi ornamen tidak perlu memotong
+ulang dari nol. Folder ini **tidak ikut ter-deploy** (hanya `public/` yang
+disajikan).
+
+```
+design-source/
+├─ lembar-clipart-asli.png     # lembar asli dari customer
+├─ potong-ornamen.py           # skrip pemotong (alpha + hapus halo putih)
+└─ ornamen-cadangan/           # 17 PNG yang belum dipakai
+```
+
+Kalau mau memakai salah satu cadangan: pindahkan ke `public/images/ornaments/`,
+daftarkan ukurannya di `ASSETS` (`PngOrnaments.js`), lalu pakai seperti biasa.
 
 ---
 
-## 5. Menambah halaman baru
+## 6. Menambah halaman baru
 
 1. Buat file di `app/components/`, misal `Video.js`:
 
@@ -279,39 +328,38 @@ const PAGES = [ ..., { id: "video", Component: Video } ];
 
 ---
 
-## 6. Link tamu
+## 7. Link tamu
 
 Nama tamu otomatis muncul di cover:
 
 ```
-https://domain-kalian.com/?to=Bapak%20Yanto
+https://undangan-naila-alfin.vercel.app/?to=Bapak%20Yanto
 ```
 
-Spasi boleh ditulis `%20` atau `+`.
+Spasi boleh ditulis `%20` atau `+`. Nama yang mengandung `&` harus ditulis `%26`.
 
 ---
 
-## 7. RSVP & buku tamu (database)
+## 8. RSVP & buku tamu (database)
 
 Data disimpan di **Supabase** (Postgres). Tanpa kunci Supabase, aplikasi otomatis
 memakai `localStorage` sebagai mode demo — berguna untuk mencoba tampilan, tetapi
 data hanya terlihat di HP pengunjung itu sendiri.
 
-### 7.1 Menyiapkan Supabase
+### 8.1 Menyiapkan Supabase
 
 1. Daftar di [supabase.com](https://supabase.com) → **New project**
-2. Pilih region **Southeast Asia (Singapore)**
-3. Buka **SQL Editor → New query**, tempel isi `supabase/schema.sql`, lalu:
+2. Buka **SQL Editor → New query**, tempel isi `supabase/schema.sql`
    - ganti `'ganti-sandi-ini'` dengan kata sandi admin pilihanmu
    - klik **Run**
-4. Buka **Project Settings → API**, salin dua nilai:
+3. Buka **Project Settings → API**, salin dua nilai:
    - `Project URL` → `NEXT_PUBLIC_SUPABASE_URL`
    - `anon public` → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
 > `anon key` aman dipakai di browser. Proyek ini **tidak** memakai
 > `service_role key` sama sekali.
 
-### 7.2 Memasang kunci
+### 8.2 Memasang kunci
 
 Lokal — buat `.env.local`:
 
@@ -323,10 +371,10 @@ cp .env.local.example .env.local
 Produksi — Vercel → project → **Settings → Environment Variables**, tambahkan dua
 variabel yang sama, lalu **Redeploy**.
 
-### 7.3 Halaman admin
+### 8.3 Halaman admin
 
 ```
-https://domain-kalian.com/admin/<kata-sandi>
+https://undangan-naila-alfin.vercel.app/admin/<kata-sandi>
 ```
 
 Isinya: statistik (total respon, hadir, tidak hadir, masih ragu, total jiwa),
@@ -334,11 +382,10 @@ pencarian nama, filter, dan tombol **Unduh Excel** (CSV yang bisa dibuka Excel
 atau Google Sheets).
 
 Kata sandi dicek **di dalam database** lewat fungsi `admin_rsvp(pass text)`.
-Artinya `anon key` yang ada di browser tidak bisa dipakai membaca data RSVP
-tanpa tahu sandinya. Halaman ini juga ditandai `noindex` agar tidak muncul di
-Google.
+Artinya `anon key` yang ada di browser tidak bisa dipakai membaca data RSVP tanpa
+tahu sandinya. Halaman ini juga ditandai `noindex` agar tidak muncul di Google.
 
-### 7.4 Struktur tabel
+### 8.4 Struktur tabel
 
 | Tabel | Kolom |
 |---|---|
@@ -348,7 +395,11 @@ Google.
 `guest_slug` menyimpan nama tamu dari link `?to=` — berguna untuk mencocokkan
 respon dengan daftar undangan yang kamu kirim.
 
-### 7.5 Membuat link per tamu
+Tabel `rsvp` sengaja **hanya boleh INSERT** (tanpa SELECT) supaya data tamu tidak
+bisa dibaca siapa pun lewat `anon key`. Jangan mengubah `Prefer: return=minimal`
+pada insert RSVP — memakai `return=representation` akan gagal dengan error `42501`.
+
+### 8.5 Membuat link per tamu
 
 1. Tulis nama tamu di `guests.txt`, satu per baris
 2. Jalankan:
@@ -362,7 +413,7 @@ npm run guests -- https://nailaalfin.my.id
 3. Hasilnya `guest-links.csv` — kolom **Nama Tamu** dan **Link Undangan**,
    siap ditempel ke WhatsApp.
 
-### 7.6 Catatan Supabase gratis
+### 8.6 Catatan Supabase gratis
 
 Project gratis Supabase **tidur setelah 7 hari tanpa aktivitas**. Kalau tidur,
 RSVP berhenti sampai kamu buka dashboard dan restore. Selama undangan aktif dan
@@ -371,28 +422,21 @@ dashboard Supabase seminggu sekali.
 
 ---
 
-## 8. Deploy
+## 9. Deploy
 
-Paling mudah lewat Vercel:
+Push ke GitHub → Vercel otomatis build dan deploy (repo:
+`github.com/chngggg/undangan-naila-alfin`).
 
 ```bash
-npx vercel        # atau push ke GitHub lalu import di vercel.com
+git add -A && git commit -m "..." && git push
 ```
 
-Gratis untuk domain `*.vercel.app`; bisa juga dipasang domain sendiri.
+Jangan lupa menambahkan dua environment variable Supabase di dashboard Vercel
+sebelum deploy pertama.
 
 ---
 
-## 9. Palet & font
+## 10. Membagikan undangan
 
-| Peran | Nilai |
-|---|---|
-| Background | `ivory #fcf9f3`, `cream #f5ede2` |
-| Teks & motif | `mahogany #4a2a26` |
-| Aksen | `champagne #dfc7a9` |
-| Bunga/aksen lembut | `nude #e7d6c7`, `dusty #997868` |
-
-Nama mempelai: Cormorant Garamond · Judul: Playfair Display ·
-Dekoratif: Great Vibes · Detail acara: Montserrat · Arab: Amiri.
-
-Ubah di `app/globals.css` bagian `@theme`.
+Kata-kata siap kirim dan tata cara penyebaran ada di
+`panduan-bagikan-undangan.md`.

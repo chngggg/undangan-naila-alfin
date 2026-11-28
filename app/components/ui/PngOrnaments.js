@@ -4,10 +4,9 @@ import Image from "next/image";
 import { img } from "../../lib/images";
 
 /* ============================================================
-   ORNAMEN PNG — set bunga cat air baru (revisi customer),
-   plus masjid, rumah adat, lentera, dan medali.
-
+   ORNAMEN PNG — set bunga cat air (revisi customer).
    Semua file ada di public/images/ornaments/.
+   Berkas cadangan yang tidak dipakai: design-source/ornamen-cadangan/
 
    Cara pakai:
      <Ornament name="bloom-bouquet-a" anim="sway" className="h-56 w-auto" />
@@ -18,41 +17,22 @@ import { img } from "../../lib/images";
 
 /* ukuran asli tiap file — dipakai agar rasio tidak gepeng */
 const ASSETS = {
-  /* buket besar (baris 1 lembar asli) */
+  /* buket besar */
   "bloom-bouquet-a": { w: 358, h: 380 },
   "bloom-bouquet-b": { w: 346, h: 304 },
   "bloom-bouquet-c": { w: 376, h: 366 },
   "bloom-bouquet-d": { w: 359, h: 380 },
-  /* semprot mendatar (baris 2) */
+  /* semprot mendatar */
   "bloom-spray-a": { w: 352, h: 159 },
   "bloom-spray-b": { w: 347, h: 159 },
   "bloom-spray-c": { w: 375, h: 157 },
   "bloom-spray-d": { w: 353, h: 159 },
-  /* bunga tunggal (baris 3) */
-  "bloom-cream": { w: 187, h: 182 },
-  "bloom-burgundy": { w: 171, h: 182 },
-  "bloom-blush": { w: 143, h: 160 },
-  "bloom-rose": { w: 175, h: 180 },
-  "sprig-gold": { w: 169, h: 185 },
+  /* bunga & tangkai tunggal */
+  "bloom-maroon": { w: 120, h: 170 },
   "berry-pink": { w: 116, h: 185 },
   "berry-cream": { w: 121, h: 183 },
   "berry-red": { w: 100, h: 185 },
-  /* aksen kecil (baris 4) */
-  "cluster-a": { w: 161, h: 196 },
-  "leaf-gold": { w: 135, h: 197 },
-  "cluster-b": { w: 157, h: 191 },
-  "bud-arch-cream": { w: 140, h: 195 },
-  "bud-arch-pink": { w: 152, h: 191 },
-  "leaf-large": { w: 128, h: 185 },
-  "bloom-single": { w: 133, h: 188 },
-  "bloom-maroon": { w: 120, h: 170 },
   "cluster-c": { w: 140, h: 188 },
-  /* non-bunga */
-  mosque: { w: 760, h: 460 },
-  pavilion: { w: 648, h: 524 },
-  arch: { w: 264, h: 292 },
-  medallion: { w: 168, h: 160 },
-  lantern: { w: 72, h: 216 },
 };
 
 export function Ornament({
@@ -135,11 +115,9 @@ export function WideFloral({
   );
 }
 
-/* Bunga tunggal — aksen kecil di dekat judul atau sudut kartu.
-   name: bloom-cream | bloom-burgundy | bloom-blush | bloom-rose |
-         bloom-single | bloom-maroon */
+/* Bunga tunggal — aksen kecil di dekat judul atau sudut kartu. */
 export function Bloom({
-  name = "bloom-cream",
+  name = "bloom-maroon",
   className = "",
   anim = "float",
   delay = 0.4,
@@ -157,7 +135,7 @@ export function Bloom({
 }
 
 /* Tangkai buah beri — menggantung, jadi poros putarnya di atas.
-   name: berry-pink | berry-cream | berry-red | sprig-gold */
+   name: berry-pink | berry-cream | berry-red */
 export function BerrySprig({
   name = "berry-pink",
   className = "",
@@ -176,11 +154,9 @@ export function BerrySprig({
   );
 }
 
-/* Rumpun kecil / daun — pengisi ruang kosong.
-   name: cluster-a | cluster-b | cluster-c | leaf-gold | leaf-large |
-         bud-arch-cream | bud-arch-pink */
+/* Rumpun kecil — pengisi ruang kosong. */
 export function Cluster({
-  name = "cluster-a",
+  name = "cluster-c",
   className = "",
   anim = "float",
   delay = 0.6,
@@ -193,78 +169,6 @@ export function Cluster({
       delay={delay}
       sizes="120px"
       className={`pointer-events-none ${width} h-auto ${className}`}
-    />
-  );
-}
-
-/* Masjid — dipakai sebagai siluet di kaki halaman */
-export function MosqueArt({
-  className = "",
-  anim = "breathe",
-  delay = 0.4,
-  width = "w-64",
-}) {
-  return (
-    <Ornament
-      name="mosque"
-      anim={anim}
-      delay={delay}
-      sizes="260px"
-      className={`pointer-events-none ${width} h-auto ${className}`}
-    />
-  );
-}
-
-/* Rumah adat — aksen budaya Jambi */
-export function PavilionArt({
-  className = "",
-  anim = "breathe",
-  delay = 0.5,
-  width = "w-40",
-}) {
-  return (
-    <Ornament
-      name="pavilion"
-      anim={anim}
-      delay={delay}
-      sizes="180px"
-      className={`pointer-events-none ${width} h-auto ${className}`}
-    />
-  );
-}
-
-/* Medali arabesque — pengganti pembatas emas */
-export function MedallionArt({
-  className = "",
-  anim = "float",
-  delay = 0.6,
-  width = "w-14",
-}) {
-  return (
-    <Ornament
-      name="medallion"
-      anim={anim}
-      delay={delay}
-      sizes="80px"
-      className={`pointer-events-none ${width} h-auto ${className}`}
-    />
-  );
-}
-
-/* Lentera gantung */
-export function LanternArt({
-  className = "",
-  anim = "sway",
-  delay = 0.2,
-  height = "h-24",
-}) {
-  return (
-    <Ornament
-      name="lantern"
-      anim={anim}
-      delay={delay}
-      sizes="80px"
-      className={`pointer-events-none ${height} w-auto ${className}`}
     />
   );
 }
