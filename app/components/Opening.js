@@ -23,7 +23,7 @@ export default function Opening() {
           <p className="font-arabic text-[17px] leading-loose text-mahogany/85">
             السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ
           </p>
-          <p className="mt-3 max-w-[340px] text-balance font-body text-[10px] uppercase tracking-wide-2 text-dusty">
+          <p className="mt-2.5 max-w-[330px] text-balance font-couple text-[15px] italic leading-relaxed text-mahogany-soft">
             Assalamu&apos;alaikum Warahmatullahi Wabarakatuh
           </p>
         </Reveal>
