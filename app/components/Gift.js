@@ -20,7 +20,7 @@ export default function Gift() {
 
   return (
     <section className="relative overflow-hidden bg-cream px-5 pt-20 pb-24">
-      <SectionDecor floral="left" />
+      <SectionDecor floral="left" variant="c" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-8 text-mahogany/[0.06] pattern-parang" />
 
       <div className="relative mx-auto max-w-[420px]">

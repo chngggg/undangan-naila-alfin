@@ -1,28 +1,60 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { music } from "../data/wedding";
+
+const VOLUME = 0.42;   // volume akhir
+const FADE_MS = 2600;  // durasi fade-in saat pertama diputar
 
 export default function MusicPlayer({ active }) {
   const audioRef = useRef(null);
+  const fadeRef = useRef(null);
   const [playing, setPlaying] = useState(false);
+
+  // Naikkan volume bertahap supaya musik tidak menyembur mendadak
+  const fadeIn = useCallback((el, target = VOLUME) => {
+    if (fadeRef.current) clearInterval(fadeRef.current);
+    const started = Date.now();
+    el.volume = 0;
+    fadeRef.current = setInterval(() => {
+      const t = Math.min(1, (Date.now() - started) / FADE_MS);
+      el.volume = target * t * t * (3 - 2 * t); // smoothstep
+      if (t >= 1) {
+        clearInterval(fadeRef.current);
+        fadeRef.current = null;
+      }
+    }, 60);
+  }, []);
 
   // Coba autoplay begitu undangan dibuka (dipicu gesture user di Cover)
   useEffect(() => {
     const el = audioRef.current;
     if (!el || !active) return;
-    el.volume = 0.45;
     el.play()
-      .then(() => setPlaying(true))
+      .then(() => {
+        fadeIn(el);
+        setPlaying(true);
+      })
       .catch(() => setPlaying(false));
-  }, [active]);
+  }, [active, fadeIn]);
+
+  // Bersihkan interval saat komponen dilepas
+  useEffect(() => () => {
+    if (fadeRef.current) clearInterval(fadeRef.current);
+  }, []);
 
   const toggle = () => {
     const el = audioRef.current;
     if (!el) return;
     if (el.paused) {
-      el.play().then(() => setPlaying(true)).catch(() => {});
+      el.play()
+        .then(() => {
+          fadeIn(el);
+          setPlaying(true);
+        })
+        .catch(() => {});
     } else {
+      if (fadeRef.current) clearInterval(fadeRef.current);
       el.pause();
       setPlaying(false);
     }

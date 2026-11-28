@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { wedding } from "../data/wedding";
 import { OgeeArch, GoldDivider, AngsoDuo } from "./ui/Ornaments";
-import { CornerFloral, WideFloral } from "./ui/PngOrnaments";
+import { CornerFloral, WideFloral, BerrySprig, Cluster } from "./ui/PngOrnaments";
 
 export default function Cover({ onOpen, guest }) {
   const { bride, groom, event } = wedding;
@@ -109,14 +109,43 @@ export default function Cover({ onOpen, guest }) {
         </div>
 
         {/* ---- ornamen bunga saja ---- */}
-        <CornerFloral side="left" height="h-48" delay={0.2} anim="sway" inset="-left-12" className="opacity-90" />
+        <CornerFloral
+          side="left"
+          variant="a"
+          height="h-44"
+          delay={0.2}
+          anim="sway"
+          inset="-left-12"
+          className="opacity-90"
+        />
         <WideFloral
           side="right"
-          variant="a"
-          width="w-36"
+          variant="c"
+          width="w-40"
           delay={0.6}
           anim="drift"
           className="-bottom-4 opacity-85"
+        />
+        <BerrySprig
+          name="berry-pink"
+          height="h-16"
+          delay={1.1}
+          anim="flutter"
+          className="absolute -right-1 top-0 opacity-70"
+        />
+        <BerrySprig
+          name="berry-cream"
+          height="h-12"
+          delay={1.6}
+          anim="flutter"
+          className="absolute -left-1 top-0 opacity-55"
+        />
+        <Cluster
+          name="cluster-c"
+          width="w-14"
+          delay={1.4}
+          anim="float"
+          className="absolute bottom-2 left-1 opacity-55"
         />
 
         {/* bingkai garis rambut */}

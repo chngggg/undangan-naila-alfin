@@ -152,27 +152,41 @@ body {
   will-change: transform, opacity;
 }
 
+/* Di atas latar maroon gelap, bunga burgundy cenderung tenggelam.
+   Varian ini menaikkan kecerahan supaya bentuknya tetap terbaca. */
+.png-orn-lift {
+  filter: saturate(1.05) contrast(1.02) brightness(1.38);
+}
+
 @keyframes ornSway {
-  0%, 100% { transform: rotate(-2.2deg) translateY(0); }
-  50%      { transform: rotate(2.2deg) translateY(-7px); }
+  0%, 100% { transform: rotate(-3deg) translateY(0); }
+  50%      { transform: rotate(3deg) translateY(-8px); }
 }
 @keyframes ornFloat {
   0%, 100% { transform: translateY(0) rotate(0deg); }
-  50%      { transform: translateY(-10px) rotate(-1.6deg); }
+  50%      { transform: translateY(-12px) rotate(-2deg); }
 }
 @keyframes ornDrift {
   0%   { transform: translate3d(0, 0, 0) rotate(0deg); }
-  33%  { transform: translate3d(6px, -8px, 0) rotate(1.8deg); }
-  66%  { transform: translate3d(-5px, -4px, 0) rotate(-1.4deg); }
+  33%  { transform: translate3d(7px, -9px, 0) rotate(2deg); }
+  66%  { transform: translate3d(-6px, -4px, 0) rotate(-1.6deg); }
   100% { transform: translate3d(0, 0, 0) rotate(0deg); }
 }
 @keyframes ornBreathe {
   0%, 100% { transform: scale(1); opacity: 0.94; }
   50%      { transform: scale(1.04); opacity: 1; }
 }
+/* tangkai beri menggantung: poros putar di ujung atas */
+@keyframes ornFlutter {
+  0%, 100% { transform: rotate(-3.4deg); }
+  50%      { transform: rotate(3.4deg); }
+}
 @keyframes ornBloom {
-  from { opacity: 0; transform: translateY(20px) scale(0.93); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  /* transform saja — opacity sengaja tidak disentuh supaya kelas
+     Tailwind `opacity-*` di tiap ornamen tetap berlaku (keyframes
+     dengan fill `both` akan menimpanya kalau opacity ikut dianimasikan). */
+  from { transform: translateY(20px) scale(0.93); }
+  to   { transform: translateY(0) scale(1); }
 }
 
 /* --orn-delay diisi inline per ornamen supaya gerakannya tidak serempak */
@@ -196,12 +210,19 @@ body {
     ornBloom 1.1s cubic-bezier(0.22, 1, 0.36, 1) both var(--orn-delay, 0s),
     ornBreathe 10s ease-in-out infinite calc(var(--orn-delay, 0s) + 1.1s);
 }
+.orn-flutter {
+  transform-origin: 50% 4%;
+  animation:
+    ornBloom 0.95s cubic-bezier(0.22, 1, 0.36, 1) both var(--orn-delay, 0s),
+    ornFlutter 7s ease-in-out infinite calc(var(--orn-delay, 0s) + 0.95s);
+}
 
 @media (prefers-reduced-motion: reduce) {
   .orn-sway,
   .orn-float,
   .orn-drift,
-  .orn-breathe {
+  .orn-breathe,
+  .orn-flutter {
     animation: ornBreathe 18s ease-in-out infinite;
   }
 }

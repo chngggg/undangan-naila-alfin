@@ -47,7 +47,7 @@ export default function Countdown() {
     <section
       className="relative overflow-hidden bg-cream px-5 pt-20 pb-32"
     >
-      <SectionDecor floral="left" />
+      <SectionDecor floral="left" variant="b" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-8 text-mahogany/[0.07] pattern-parang" />
 
       <div className="relative mx-auto max-w-[420px]">

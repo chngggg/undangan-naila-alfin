@@ -9,6 +9,7 @@ import {
   MosqueSkyline,
   SectionDecor,
 } from "./ui/Ornaments";
+import { Ornament, BerrySprig } from "./ui/PngOrnaments";
 
 export default function Closing() {
   const { bride, groom, closingVerse, thanks, hashtag } = wedding;
@@ -85,6 +86,29 @@ export default function Closing() {
       </div>
 
       <MosqueSkyline className="pointer-events-none absolute inset-x-0 bottom-0 h-16 w-full text-champagne/[0.10]" />
+
+      {/* bunga di latar maroon — warna burgundy-nya menyatu dengan latar */}
+      <Ornament
+        name="bloom-bouquet-c"
+        anim="sway"
+        delay={0.4}
+        sizes="220px"
+        className="png-orn-lift absolute -left-10 top-0 h-40 w-auto opacity-85"
+      />
+      <Ornament
+        name="bloom-spray-d"
+        anim="drift"
+        delay={0.9}
+        sizes="200px"
+        className="png-orn-lift absolute -right-8 bottom-16 h-auto w-32 opacity-55 -scale-x-100"
+      />
+      <BerrySprig
+        name="berry-pink"
+        height="h-16"
+        delay={1.4}
+        anim="flutter"
+        className="png-orn-lift absolute -right-1 top-0 opacity-60"
+      />
     </section>
   );
 }

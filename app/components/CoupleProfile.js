@@ -10,7 +10,7 @@ import {
   TampukManggis,
   SectionDecor,
 } from "./ui/Ornaments";
-import { WideFloral } from "./ui/PngOrnaments";
+import { WideFloral, BerrySprig } from "./ui/PngOrnaments";
 
 /* potret dalam lengkung berenda */
 function ArchPortrait({ src, alt }) {
@@ -131,7 +131,14 @@ export default function CoupleProfile() {
         </Reveal>
       </div>
 
-      <WideFloral side="right" variant="b" width="w-28" delay={0.5} anim="drift" className="opacity-70" />
+      <WideFloral side="right" variant="d" width="w-28" delay={0.5} anim="drift" className="opacity-70" />
+      <BerrySprig
+        name="berry-cream"
+        height="h-16"
+        delay={1.3}
+        anim="flutter"
+        className="absolute -left-1 top-2 opacity-55"
+      />
     </section>
   );
 }

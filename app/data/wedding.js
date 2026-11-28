@@ -77,4 +77,4 @@ export const gifts = [
   },
 ];
 
-export const music = "/audio/music.mp3";
+export const music = "/audio/ini-abadi.mp3";

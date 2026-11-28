@@ -6,7 +6,7 @@ import { wedding } from "../data/wedding";
 import { img } from "../lib/images";
 import { Reveal } from "./ui/Reveal";
 import { GoldDivider, TampukManggis, KawungBand, SectionDecor } from "./ui/Ornaments";
-import { WideFloral } from "./ui/PngOrnaments";
+import { WideFloral, BerrySprig, Bloom } from "./ui/PngOrnaments";
 
 export default function Opening() {
   const { opening, intention, event } = wedding;
@@ -14,7 +14,7 @@ export default function Opening() {
   return (
     <section className="relative overflow-hidden bg-ivory px-6 pt-16 pb-20">
       {/* latar: vignette hangat + semprot bunga + bingkai */}
-      <SectionDecor floral="right" />
+      <SectionDecor floral="right" variant="d" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-ivory to-transparent" />
       <KawungBand className="pointer-events-none absolute inset-x-0 top-2 h-3 w-full text-mahogany/10" />
 
@@ -78,7 +78,21 @@ export default function Opening() {
       </div>
 
       {/* bunga sudut */}
-      <WideFloral side="right" variant="b" width="w-28" delay={0.7} anim="drift" className="opacity-70" />
+      <WideFloral side="right" variant="b" width="w-32" delay={0.7} anim="drift" className="opacity-75" />
+      <BerrySprig
+        name="berry-red"
+        height="h-16"
+        delay={1.2}
+        anim="flutter"
+        className="absolute -left-1 top-0 opacity-65"
+      />
+      <Bloom
+        name="bloom-maroon"
+        width="w-12"
+        delay={1.5}
+        anim="float"
+        className="absolute bottom-24 left-3 opacity-70"
+      />
     </section>
   );
 }

@@ -137,7 +137,8 @@ export default function EventDetails() {
 
       <CornerFloral
         side="right"
-        height="h-28"
+        variant="d"
+        height="h-24"
         delay={0.3}
         anim="sway"
         inset="-right-10"
